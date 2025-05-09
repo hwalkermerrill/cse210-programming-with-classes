@@ -29,7 +29,7 @@ public class Journal
 		// Write the journal entries to the CSV file
 		Prompts prompts = new Prompts();
 		string prompt = prompts.Prompt();
-		Console.WriteLine("Write your journal entry for today while considering the following prompt:" + prompt);
+		Console.WriteLine("Write your journal entry for today while considering the following prompt: " + prompt);
 		Console.WriteLine("Press enter when you are finished writing your entry.");
 		Console.WriteLine();
 		string entry = Console.ReadLine();
@@ -37,7 +37,7 @@ public class Journal
 
 		using (StreamWriter jEntry = new StreamWriter("journal.csv", true))
 		{
-			jEntry.WriteLine($"{currentDate},{prompt},{entry}");
+			jEntry.WriteLine($"{currentDate},{prompt},'{entry}'");
 		}
 	}
 }

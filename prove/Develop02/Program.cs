@@ -17,11 +17,13 @@ class Program
 			{
 				Journal journal = new Journal();
 				journal.DisplayJournal();
+				choice = "quit"; // Exit after reading entries
 			}
 			else if (choice == "w")
 			{
 				Journal journal = new Journal();
 				journal.WriteJournal();
+				choice = "new"; // Prompt for next action
 			}
 			else
 			{
