@@ -27,7 +27,7 @@ class Program
 			}
 			else
 			{
-				Console.WriteLine("Invalid choice. Please enter 'r' or 'w', or 'quit' to exit.");
+				Console.WriteLine("Would you like to run this program again? Please enter 'r' or 'w', or 'quit' to exit.");
 				choice = Console.ReadLine().ToLower();
 			}
 		} while (choice != "quit");
