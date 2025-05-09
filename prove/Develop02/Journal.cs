@@ -37,7 +37,7 @@ public class Journal
 
 		using (StreamWriter jEntry = new StreamWriter("journal.csv", true))
 		{
-			jEntry.WriteLine($"{currentDate},{prompt},'{entry}'");
+			jEntry.WriteLine($"{currentDate},{prompt},\"{entry}\"");
 		}
 	}
 }
