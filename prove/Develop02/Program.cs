@@ -6,7 +6,20 @@ class Program
 	{
 		// Welcomes user, prompts them to read past entries or write a new one
 		Console.WriteLine("Welcome to the Journal Program!");
+		Console.WriteLine("This program allows you to write journal entries and read past entries.");
 		Console.WriteLine();
+		Console.WriteLine("Would you like to select a file location for your journal?");
+		Console.WriteLine("Type 'yes' to select a file location, or anything else to use the default location.");
+		if (Console.ReadLine().ToLower() == "yes")
+		{
+			Console.WriteLine("Please enter the file path for your journal (e.g., C:\\path\\to\\your\\journal.csv): ");
+			string filePath = Console.ReadLine();
+			Console.WriteLine($"Your journal will be saved to: {filePath}");
+		}
+		else
+		{
+			Console.WriteLine("Using default file location: journal.csv");
+		}
 
 		Console.WriteLine("Would you like to read past entries or write a new one? (r/w): ");
 		string choice = Console.ReadLine().ToLower();
@@ -17,7 +30,7 @@ class Program
 			{
 				Journal journal = new Journal();
 				journal.DisplayJournal();
-				choice = "quit"; // Exit after reading entries
+				choice = "new"; // Prompt for next action
 			}
 			else if (choice == "w")
 			{

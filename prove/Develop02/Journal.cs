@@ -5,10 +5,19 @@ using System.Security.Cryptography.X509Certificates;
 
 public class Journal
 {
-	public void DisplayJournal()
+	public void DisplayJournal(string filePath = "journal.csv")
 	{
+		// Check if the journal file exists
+		if (!File.Exists(filePath))
+		{
+			Console.WriteLine("No journal entries found.");
+			return;
+		}
+
+		Console.WriteLine("Here are your past journal entries:");
+		Console.WriteLine();
 		// Read the journal entries from the CSV file
-		using (StreamReader jEntry = new StreamReader("journal.csv"))
+		using (StreamReader jEntry = new StreamReader(filePath))
 		{
 			while (!jEntry.EndOfStream)
 			{
@@ -24,7 +33,7 @@ public class Journal
 			}
 		}
 	}
-	public void WriteJournal()
+	public void WriteJournal(string filePath = "journal.csv")
 	{
 		// Write the journal entries to the CSV file
 		Prompts prompts = new Prompts();
@@ -36,7 +45,7 @@ public class Journal
 		DateTime todayDate = DateTime.Today;
 		string currentDate = todayDate.ToString("MM/dd/yyyy");
 
-		using (StreamWriter jEntry = new StreamWriter("journal.csv", true))
+		using (StreamWriter jEntry = new StreamWriter(filePath, true))
 		{
 			jEntry.WriteLine($"{currentDate},{prompt},\"{entry}\"");
 		}
