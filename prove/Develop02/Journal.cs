@@ -33,11 +33,14 @@ public class Journal
 		Console.WriteLine("Press enter when you are finished writing your entry.");
 		Console.WriteLine();
 		string entry = Console.ReadLine();
-		DateTime currentDate = DateTime.Today;
+		DateTime todayDate = DateTime.Today;
+		string currentDate = todayDate.ToString("MM/dd/yyyy");
 
 		using (StreamWriter jEntry = new StreamWriter("journal.csv", true))
 		{
 			jEntry.WriteLine($"{currentDate},{prompt},\"{entry}\"");
 		}
+		Console.WriteLine();
+		Console.WriteLine("Your entry has been saved.");
 	}
 }
