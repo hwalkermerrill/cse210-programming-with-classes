@@ -5,19 +5,34 @@ using System.Security.Cryptography.X509Certificates;
 
 public class Journal
 {
-	public void DisplayJournal(string filePath = "journal.csv")
+	public string _filePath = "journal.csv";
+	public void SetFilePath(string newPath)
+	{
+		// Set a new filepath for the journal, with validation
+		if (string.IsNullOrWhiteSpace(newPath))
+		{
+			Console.WriteLine("Invalid file path. Keeping the current path.");
+			return;
+		}
+		else
+		{
+			_filePath = newPath;
+			Console.WriteLine($"File path set to: {_filePath}");
+		}
+	}
+	public void DisplayJournal()
 	{
 		// Check if the journal file exists
-		if (!File.Exists(filePath))
+		if (!File.Exists(_filePath))
 		{
 			Console.WriteLine("No journal entries found.");
 			return;
 		}
 
-		Console.WriteLine("Here are your past journal entries:");
-		Console.WriteLine();
+		Console.WriteLine("Here are your past journal entries:\n");
+
 		// Read the journal entries from the CSV file
-		using (StreamReader jEntry = new StreamReader(filePath))
+		using (StreamReader jEntry = new StreamReader(_filePath))
 		{
 			while (!jEntry.EndOfStream)
 			{
@@ -33,23 +48,22 @@ public class Journal
 			}
 		}
 	}
-	public void WriteJournal(string filePath = "journal.csv")
+	public void WriteJournal()
 	{
 		// Write the journal entries to the CSV file
 		Prompts prompts = new Prompts();
 		string prompt = prompts.Prompt();
-		Console.WriteLine("Write your journal entry for today while considering the following prompt: " + prompt);
-		Console.WriteLine("Press enter when you are finished writing your entry.");
-		Console.WriteLine();
+
+		Console.WriteLine("\nWrite your journal entry for today while considering the following prompt: " + prompt);
+		Console.WriteLine("Press enter when you are finished writing your entry.\n");
 		string entry = Console.ReadLine();
 		DateTime todayDate = DateTime.Today;
 		string currentDate = todayDate.ToString("MM/dd/yyyy");
 
-		using (StreamWriter jEntry = new StreamWriter(filePath, true))
+		using (StreamWriter jEntry = new StreamWriter(_filePath, true))
 		{
 			jEntry.WriteLine($"{currentDate} - ,Prompt: {prompt},\"{entry}\"");
 		}
-		Console.WriteLine();
-		Console.WriteLine("Your entry has been saved.");
+		Console.WriteLine("\nYour entry has been saved.");
 	}
 }
