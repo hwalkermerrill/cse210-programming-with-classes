@@ -24,17 +24,20 @@ public class Journal
 			}
 		}
 	}
-	// public void WriteJournal()
-	// {
-	//     // Write the journal entries to the CSV file
-	//     public string _prompt;
-	//     DateTime currentDate = DateTime.Today;
-	//     public string _entry;
+	public void WriteJournal()
+	{
+		// Write the journal entries to the CSV file
+		Prompts prompts = new Prompts();
+		string prompt = prompts.Prompt();
+		Console.WriteLine("Write your journal entry for today while considering the following prompt:" + prompt);
+		Console.WriteLine("Press enter when you are finished writing your entry.");
+		Console.WriteLine();
+		string entry = Console.ReadLine();
+		DateTime currentDate = DateTime.Today;
 
-	//     using (StreamWriter jEntry = new StreamWriter("journal.csv", true))
-	//     {
-	//         jEntry.WriteLine($"{currentDate},{_prompt},{_entry}");
-	//     }
-
-	// }
+		using (StreamWriter jEntry = new StreamWriter("journal.csv", true))
+		{
+			jEntry.WriteLine($"{currentDate},{prompt},{entry}");
+		}
+	}
 }
