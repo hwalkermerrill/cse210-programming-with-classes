@@ -23,6 +23,9 @@ class Program
 			Console.WriteLine();
 			Console.Write("What would you like to do? ");
 			int choice = int.Parse(Console.ReadLine());
+			Console.WriteLine();
+
+			// Switch statement handles user input
 			switch (choice)
 			{
 				case 1:
