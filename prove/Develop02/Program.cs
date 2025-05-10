@@ -27,7 +27,7 @@ class Program
 			}
 			Console.WriteLine();
 
-			// Switch statement handles user input
+			// Switch statement handles user input, exceeds requirements with validation
 			switch (choice)
 			{
 				case 1:
@@ -37,6 +37,8 @@ class Program
 					journal.WriteJournal();
 					break;
 				case 3:
+					// Default location is bin/Debug/net6.0/journal.csv
+					// This csv file is excel compatible and exceeds requirements
 					Console.WriteLine("Please enter the file path for your journal (e.g., C:\\path\\to\\your\\journal.csv): ");
 					journal.SetFilePath(Console.ReadLine());
 					break;
