@@ -1,0 +1,47 @@
+@startuml journal
+
+entity "user" as User
+
+class Program {
+    +Main()
+    +SetFilePath
+}
+
+class Journal {
+    -string _filePath = "journal.csv"
+    +SetFilePath(string newPath)
+    +DisplayJournal()
+    +WriteJournal()
+}
+
+class Prompts {
+    +string Prompt()
+}
+
+Program : Displays Menu Options
+User --> Program : "Selects Menu Option"
+
+Program --> Journal : "User selects 'Read Journal'"
+Journal --> Program : "Returns journal entries from _filePath"
+Program --> User: Displays journal entries and returns to Program Menu"
+
+Program --> Journal : "User selects 'Write Journal'"
+Journal --> Prompts : "Requests a prompt"
+Prompts --> Journal : "Returns prompt"
+Journal --> User : "Displays prompt"
+User --> Journal : "Writes journal entry"
+Journal --> Journal : "Stores journal entry in _filePath"
+Journal --> Program : "Confirms entry saved"
+Program --> User : "Returns to Program Menu"
+
+Program --> Program : "User selects 'Change FilePath'"
+Program --> User : "Requests new file path"
+User --> Program : "Enters new file path"
+Program --> Journal : "Updates _filePath"
+Journal --> Program : "Confirms file path updated"
+Program --> User : "Returns to Program Menu"
+
+Program --> Program : "User selects 'Exit'"
+Program : Terminates program
+
+@enduml
