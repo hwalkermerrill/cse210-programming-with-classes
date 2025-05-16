@@ -34,6 +34,7 @@ public class Journal
 		// Read the journal entries from the CSV file
 		using (StreamReader jEntry = new StreamReader(_filePath))
 		{
+			jEntry.ReadLine(); // Skip the header line
 			while (!jEntry.EndOfStream)
 			{
 				string line = jEntry.ReadLine();
