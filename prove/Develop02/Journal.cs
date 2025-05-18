@@ -63,7 +63,7 @@ public class Journal
 
 		using (StreamWriter jEntry = new StreamWriter(_filePath, true))
 		{
-			jEntry.WriteLine($"{currentDate} - ,Prompt: {prompt},\"{entry}\"");
+			jEntry.WriteLine($"\"{entry}\", Prompt: {prompt}, - {currentDate}");
 		}
 		Console.WriteLine("\nYour entry has been saved.");
 	}
