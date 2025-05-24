@@ -1,0 +1,34 @@
+@startuml
+actor User
+participant Program
+participant Journal
+participant Prompts
+
+User -> Program: Start program
+
+loop Menu Selection
+  User <- Program: Display Menu
+  User -> Program: Select menu option (1/2/3/4)
+
+  alt Option 1: Read Journal
+    Program -> Journal: Read journal entries
+    Journal --> User: Return journal entries
+
+  else Option 2: Write New Entry
+    Program -> Journal: Start new journal entry
+    Journal -> Prompts: Request journal prompt
+    Prompts --> User: Display journal prompt
+    User -> Journal: Enter journal entry
+    Journal -> Journal: Save entry
+
+  else Option 3: Change Filepath
+    User -> Program: Enters new filepath
+    Program -> Journal: Update filepath
+    Journal -> Journal: Validates filepath
+
+  else Option 4: Exit
+    Program --> User: Displays Goodbye Message
+    Program -> Program: Terminates Program
+  end
+end
+@enduml
