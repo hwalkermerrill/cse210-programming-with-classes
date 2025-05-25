@@ -1,0 +1,54 @@
+@startuml
+entity User
+entity "ScriptureMastery.csv" as CSVFile {
+  _reference: CSV
+  _scriptures: CSV
+}
+
+class Main {
+  _filepath: string
+  _quit: bool
+  _reference: string
+  scripture: list
+  words: list
+  GetMastery(_filepath: string)
+  BuildReference(_reference: string)
+  HideWord(words: list)
+  DisplayMastery(_quit)
+}
+
+class Reference {
+  _reference: string
+  scripture: list
+  words: list
+  BuildScriptures(_reference: string)
+}
+
+class Scripture {
+  _scripture: string
+  words: list
+  BuildWords(_scripture: string)
+}
+
+class Word {
+  _word: string
+  _visible: bool
+}
+
+User -> Main: Runs Program
+User <-- Main: Displays Scripture Mastery
+
+Main -> CSVFile: Selects Scripture Mastery
+Main <-- CSVFile: Returns Reference and Scripture
+
+CSVFile -[hidden]-> Reference
+
+Main -> Reference: Delivers Scripture Mastery Reference
+Main <-- Reference: Returns Reference
+
+Reference -> Scripture: Delivers Reference Scripture
+Reference <-- Scripture: Returns Scriptures
+
+Scripture -> Word: Delivers Scripture Words
+Word <-- Scripture: Returns Words
+@enduml
