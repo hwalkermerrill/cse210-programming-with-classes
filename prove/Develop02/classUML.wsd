@@ -1,46 +1,48 @@
 @startuml
-entity "user" as User
+entity User
+entity "journal.csv" as CSVFile {
+  _entry: "csv"
+  _prompt: csv
+  _date: csv
+}
 
 class Program {
-    +Main()
-    +SetFilePath
+  +menuOptions: list
+    1. readEntries
+    2. writeEntries
+    3. setFilePath
+    4. quit
+  +switch(menuOption: int)
 }
 
 class Journal {
-    -string _filePath = "journal.csv"
-    +SetFilePath(string newPath)
-    +DisplayJournal()
-    +WriteJournal()
+  _filePath: string
+  _entry: string
+  _currentDate: string
+  _prompt: string
+  +SetFilePath(_filePath: string)
+  +DisplayJournal()
+  +WriteJournal()
 }
 
 class Prompts {
-    +string Prompt()
+  +promptList: list
+  +Prompt()
 }
 
-Program : Displays Program Menu
-User --> Program : "Selects Menu Option"
+User -> Program: Runs Program
+Program --> User: Returns Results
 
-Program --> Journal : "User selects 'Read Journal'"
-Journal --> Program : "Returns journal entries from _filePath"
-Program : Displays "journal entries"
-' Program : Returns to Program Menu
+Program -> Journal: Read Journal Entries
+Program -> Journal: Writes Journal Entries
+Program -> Journal: Change Filepath
+Journal --> Program: Returns Entries
 
-Program --> Journal : "User selects 'Write Journal'"
-Journal --> Prompts : "Requests a prompt"
-Prompts --> Journal : "Returns prompt"
-Journal --> User : "Displays prompt"
-User --> Journal : "Writes journal entry"
-Journal --> Journal : "Stores journal entry in _filePath"
-Journal --> Program : "Confirms entry saved"
-' Program : Returns to Program Menu
+Journal -> Prompts: Requests Journal Prompts
+Prompts --> Journal: Returns Prompt
 
-Program --> Program : "User selects 'Change FilePath'"
-Program --> User : "Requests new file path"
-User --> Program : "Enters new file path"
-Program --> Journal : "Updates _filePath"
-Journal --> Program : "Confirms file path updated"
-' Program : Returns to Program Menu
+Journal -> CSVFile: Save New Entries
+CSVFile --> Journal: Load Entries
 
-Program --> Program : "User selects 'Exit'"
-Program : Terminates Program
+CSVFile -[hidden]-> Prompts
 @enduml
