@@ -50,5 +50,5 @@ Reference -> Scripture: Delivers Reference Scripture
 Reference <-- Scripture: Returns Scriptures
 
 Scripture -> Word: Delivers Scripture Words
-Word <-- Scripture: Returns Words
+Scripture <-- Word: Returns Words
 @enduml
