@@ -11,6 +11,7 @@ class Program {
   _reference: string
   scripture: list <string>
   words: list <string>
+  Main()
   GetMastery(_filepath: string)
   BuildReference(_reference: string)
   HideWord(words: list)
