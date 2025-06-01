@@ -1,4 +1,3 @@
-// Program.cs
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,25 +7,23 @@ namespace ScriptureMasterySharp
 {
 	class Program
 	{
-		// _attributes: file path must be specified correctly.
+		// _attributes here, following _camelCase convention.
 		private string _filePath = "ScriptureMastery.csv";
 		private bool _quit = false;
-		// Instead of a simple string reference, we now have a Reference object.
 		public Reference _referenceObject;
 
 		static void Main(string[] args)
 		{
-			// Create an instance of Program and run the main loop.
 			Program program = new Program();
 			program.Run();
 		}
 
 		public void Run()
 		{
-			// Initialize the Reference object. The constructor loads all entries.
+			// This constructor loads all entries for the _referenceObject.
 			_referenceObject = new Reference(_filePath);
 
-			// If there are no scriptures loaded, exit immediately.
+			// Validates that the CSV file has scripture entries.
 			if (_referenceObject.IsEmpty)
 			{
 				Console.WriteLine("No scripture entries available.");
@@ -38,13 +35,14 @@ namespace ScriptureMasterySharp
 			{
 				MemorizeScripture();
 
-				// Ask if the user wants to memorize another scripture (if any remain)
+				// Fun congratulations message for memorizing all of the scripturesA
 				if (!_referenceObject.HasMoreScriptures())
 				{
-					Console.WriteLine("All scriptures have been memorized. Congratulations!");
+					Console.WriteLine("You have mastered this! Go forth as a Disciple of Jesus Christ, the Son of God, commissioned to say and do what He Himself would say and do if He personally were ministering to the very people to whom He has sent you!");
 					break;
 				}
 
+				// This loops allows the user to move on to a new scripture, if desired.
 				Console.WriteLine("Would you like to memorize another scripture? (y/n):");
 				string userChoice = Console.ReadLine().Trim().ToLower();
 				if (userChoice == "y")
@@ -60,7 +58,7 @@ namespace ScriptureMasterySharp
 
 		private void MemorizeScripture()
 		{
-			// Ask the reference object to select a random scripture.
+			// Displays error if no random scripture can be selected.
 			if (!_referenceObject.SelectRandomScripture())
 			{
 				Console.WriteLine("No scripture could be selected.");
@@ -71,7 +69,7 @@ namespace ScriptureMasterySharp
 			string masteryReference = _referenceObject.MasteryReference;
 			List<Scripture> scriptures = _referenceObject.Scriptures;
 
-			// Display the scripture initially as written.
+			// Display the scripture in full on first load.
 			while (!_quit)
 			{
 				Console.Clear();
@@ -90,7 +88,7 @@ namespace ScriptureMasterySharp
 					continue;
 				}
 
-				// Gather all visible words from all scripture verses.
+				// Gathers all visible words.
 				List<Word> visibleWords = new List<Word>();
 				foreach (Scripture scripture in scriptures)
 				{
@@ -106,13 +104,13 @@ namespace ScriptureMasterySharp
 				}
 				else
 				{
-					Console.WriteLine("All words are hidden.");
+					Console.WriteLine("You have mastered this scripture!");
 					Console.WriteLine("Press Enter to continue.");
 					Console.ReadLine();
 					break;
 				}
 			}
-			// After finishing one scripture, reset _quit for the next round.
+			// After finishing the scripture, reset _quit flag.
 			_quit = false;
 		}
 	}
