@@ -7,9 +7,9 @@ namespace ScriptureMasterySharp
 {
 	public class Scripture
 	{
+		// _attributes here, following _camelCase convention.
 		private string _text;
-		// Expose the Words so that Program.cs can update hidden state.
-		public List<Word> Words { get; private set; } = new List<Word>();
+		public List<Word> _words { get; private set; } = new List<Word>();
 
 		// Constructor receives the verse text.
 		public Scripture(string text)
@@ -18,20 +18,20 @@ namespace ScriptureMasterySharp
 			ParseWords();
 		}
 
-		// Splits the verse into words (naively on space), producing Word objects.
+		// Splits the verse into Word objects on spaces.
 		private void ParseWords()
 		{
 			string[] splitWords = _text.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 			foreach (string word in splitWords)
 			{
-				Words.Add(new Word(word));
+				_words.Add(new Word(word));
 			}
 		}
 
-		// Returns the verse's text for display—with hidden words replaced by underscores.
+		// Returns the verse's text for display, with hidden words replaced by underscores.
 		public string GetDisplayText()
 		{
-			return string.Join(" ", Words.Select(w => w.GetDisplayContent()));
+			return string.Join(" ", _words.Select(w => w.GetDisplayContent()));
 		}
 	}
 }

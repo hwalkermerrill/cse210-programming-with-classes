@@ -23,8 +23,8 @@ namespace ScriptureMasterySharp
 			// This constructor loads all entries for the _referenceObject.
 			_referenceObject = new Reference(_filePath);
 
-			// Validates that the CSV file has scripture entries.
-			if (_referenceObject.IsEmpty)
+			// Registers if file validation fails.
+			if (_referenceObject._isEmpty)
 			{
 				Console.WriteLine("No scripture entries available.");
 				return;
@@ -66,8 +66,8 @@ namespace ScriptureMasterySharp
 			}
 
 			// Retrieve the mastery reference and the list of Scripture objects.
-			string masteryReference = _referenceObject.MasteryReference;
-			List<Scripture> scriptures = _referenceObject.Scriptures;
+			string masteryReference = _referenceObject._masteryReference;
+			List<Scripture> scriptures = _referenceObject._scriptures;
 
 			// Display the scripture in full on first load.
 			while (!_quit)
@@ -92,7 +92,7 @@ namespace ScriptureMasterySharp
 				List<Word> visibleWords = new List<Word>();
 				foreach (Scripture scripture in scriptures)
 				{
-					visibleWords.AddRange(scripture.Words.Where(word => !word.IsHidden));
+					visibleWords.AddRange(scripture._words.Where(word => !word._isHidden));
 				}
 
 				if (visibleWords.Any())
@@ -100,7 +100,7 @@ namespace ScriptureMasterySharp
 					// Create one Random instance and hide one word.
 					Random rand = new Random();
 					int index = rand.Next(visibleWords.Count);
-					visibleWords[index].IsHidden = true;
+					visibleWords[index]._isHidden = true;
 				}
 				else
 				{
