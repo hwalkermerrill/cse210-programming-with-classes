@@ -5,7 +5,7 @@ entity "ScriptureMastery.csv" as CSVFile {
   _scriptures: CSV
 }
 
-class Main {
+class Program {
   _filepath: string
   _quit: bool
   _reference: string
