@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ScriptureMasteryApp
+namespace ScriptureMasterySharp
 {
   public class Scripture
   {

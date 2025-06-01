@@ -2,7 +2,7 @@
 using System;
 using System.Linq;
 
-namespace ScriptureMasteryApp
+namespace ScriptureMasterySharp
 {
   public class Word
   {
