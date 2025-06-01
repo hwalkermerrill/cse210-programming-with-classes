@@ -9,8 +9,8 @@ class Main {
   _filepath: string
   _quit: bool
   _reference: string
-  scripture: list
-  words: list
+  scripture: list <string>
+  words: list <string>
   GetMastery(_filepath: string)
   BuildReference(_reference: string)
   HideWord(words: list)
@@ -19,14 +19,14 @@ class Main {
 
 class Reference {
   _reference: string
-  scripture: list
-  words: list
+  scripture: list <string>
+  words: list <string>
   BuildScriptures(_reference: string)
 }
 
 class Scripture {
   _scripture: string
-  words: list
+  words: list <string>
   BuildWords(_scripture: string)
 }
 
