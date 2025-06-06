@@ -1,0 +1,78 @@
+@startuml
+title Activity Memory Application Class Diagram
+
+'--------------------------------------------------
+' Base class for common activity behavior
+'--------------------------------------------------
+abstract class Activity {
+  - _name : string
+  - _description : string
+  - _duration : int
+  --
+  + Activity(name: string, description: string, duration: int)
+  + DisplayStartMessage() : void
+  + DisplayEndMessage() : void
+  + PromptDuration() : void
+  + Pause(seconds: int) : void
+  + ShowAnimation() : void
+  + RunActivity() : void
+}
+
+'--------------------------------------------------
+' Breathing Activity: alternates between "Breathe in" and "Breathe out"
+'--------------------------------------------------
+class BreathingActivity {
+  + BreathingCycle() : void
+  + RunActivity() : void
+}
+BreathingActivity --|> Activity : Child Of
+
+'--------------------------------------------------
+' Reflection Activity: shows a random prompt and then reflective questions
+'--------------------------------------------------
+class ReflectionActivity {
+  - _prompts : List<string>
+  - _questions : List<string>
+  + DisplayPrompt() : void
+  + AskQuestions() : void
+  + RunActivity() : void
+}
+ReflectionActivity --|> Activity : Child Of
+
+'--------------------------------------------------
+' Listing Activity: shows a prompt and lets the user list items until the time is up
+'--------------------------------------------------
+class ListingActivity {
+  - _prompt : string
+  - _items : List<string>
+  + StartListing() : void
+  + CountItems() : int
+  + RunActivity() : void
+}
+ListingActivity --|> Activity : Child Of
+
+'--------------------------------------------------
+' Utility class for any animations (spinner, countdown, etc.)
+'--------------------------------------------------
+class Animation {
+  + ShowSpinner(duration: int) : void
+  + ShowCountdown(seconds: int) : void
+}
+
+'--------------------------------------------------
+' Main program: contains the menu system and drives the activity selection
+'--------------------------------------------------
+class Program {
+  - _activities : List<Activity>
+  + Main(args : string[]) : void
+  + DisplayMenu() : void
+  + ExecuteActivity(selectedActivity: Activity) : void
+}
+
+' Relationships depicting that Program uses the Activity base class ...
+Program ..> Activity : uses
+
+' And Activity uses Animation for pauses and animations.
+Activity ..> Animation : Displays
+
+@enduml

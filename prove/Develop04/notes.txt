@@ -1,0 +1,15 @@
+classes:
+  program class
+    menu- each activities should have it's own option
+  animation - some sort of timer or way to interact with different classes
+
+  activities class - each one should start with a "starting message". 
+                  -common ending message, pause animation, countdown timer 
+    breathing - breathing messages "Breath in...breath out"
+    listing - listening message, random message prompts, user prompt for listing, returns items 
+    reflection - random prompts - reflection message at beginning, random questions after prompts
+Design:
+  program displays menu
+  user selects option 
+  user moves into sub menu to display activity
+  after set time user returns to menu
