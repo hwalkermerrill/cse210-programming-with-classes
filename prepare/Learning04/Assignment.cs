@@ -1,5 +1,6 @@
 class Assignment
 {
+  //Attributes
   private string _studentName;
   private string _topic;
 
@@ -12,5 +13,13 @@ class Assignment
   public string GetSummary()
   {
     return _studentName + " - " + _topic;
+  }
+  public string GetTopic()
+  {
+    return _topic;
+  }
+  public string GetStudentName()
+  {
+    return _studentName;
   }
 }
