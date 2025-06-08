@@ -1,31 +1,28 @@
 @startuml
-title Activity Memory Application Class Diagram
+title CSE210-Develop04 C# Mindfulness Program
 
 '--------------------------------------------------
 ' Base class for common activity behavior
 '--------------------------------------------------
 abstract class Activity {
-  - _name : string
-  - _description : string
-  - _duration : int
+  - _name
+  - _description
+  - _duration
   --
-  + Activity(name: string, description: string, duration: int)
-  + DisplayStartMessage() : void
-  + DisplayEndMessage() : void
-  + PromptDuration() : void
-  + Pause(seconds: int) : void
-  + ShowAnimation() : void
-  + RunActivity() : void
+  + DisplayStartMessage(_description)
+  + DisplayEndMessage(_name)
+  + Pause()
+  + Quit()
 }
 
 '--------------------------------------------------
 ' Breathing Activity: alternates between "Breathe in" and "Breathe out"
 '--------------------------------------------------
 class BreathingActivity {
-  + BreathingCycle() : void
-  + RunActivity() : void
+  - _interval
+  + BreathingCycle()
 }
-BreathingActivity --|> Activity : Child Of
+BreathingActivity --|> Activity : Child of
 
 '--------------------------------------------------
 ' Reflection Activity: shows a random prompt and then reflective questions
@@ -33,11 +30,11 @@ BreathingActivity --|> Activity : Child Of
 class ReflectionActivity {
   - _prompts : List<string>
   - _questions : List<string>
-  + DisplayPrompt() : void
-  + AskQuestions() : void
-  + RunActivity() : void
+  + ReflectionActivity()
+  + RandomPrompt(_prompts)
+  + RandomQuestion(_questions)
 }
-ReflectionActivity --|> Activity : Child Of
+ReflectionActivity --|> Activity : Child of
 
 '--------------------------------------------------
 ' Listing Activity: shows a prompt and lets the user list items until the time is up
@@ -45,18 +42,19 @@ ReflectionActivity --|> Activity : Child Of
 class ListingActivity {
   - _prompt : string
   - _items : List<string>
-  + StartListing() : void
-  + CountItems() : int
-  + RunActivity() : void
+  + ListingActivity()
+  + CountItems()
 }
-ListingActivity --|> Activity : Child Of
+ListingActivity --|> Activity : Child of
 
 '--------------------------------------------------
 ' Utility class for any animations (spinner, countdown, etc.)
 '--------------------------------------------------
 class Animation {
-  + ShowSpinner(duration: int) : void
-  + ShowCountdown(seconds: int) : void
+  - _animationType : string
+  + ShowAnimation(_animationType)
+  + ShowSpinner(duration: int)
+  + ShowCountdown(seconds: int)
 }
 
 '--------------------------------------------------
@@ -64,13 +62,13 @@ class Animation {
 '--------------------------------------------------
 class Program {
   - _activities : List<Activity>
-  + Main(args : string[]) : void
-  + DisplayMenu() : void
-  + ExecuteActivity(selectedActivity: Activity) : void
+  + Main()
+  + DisplayMenu()
+  + RunActivity(selectedActivity: Activity)
 }
 
 ' Relationships depicting that Program uses the Activity base class ...
-Program ..> Activity : uses
+Program ..> Activity : Selects one
 
 ' And Activity uses Animation for pauses and animations.
 Activity ..> Animation : Displays
