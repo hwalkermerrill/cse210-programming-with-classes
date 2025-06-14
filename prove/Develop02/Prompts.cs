@@ -1,26 +1,30 @@
 using System;
 
-public class Prompts
+class Prompts
 {
-	public string Prompt()
+	private List<string> _promptBank;
+	private Random _random;
+	public Prompts()
 	{
-		// Create Prompt Bank;
-		List<string> PromptBank = new List<string>
-		{
-		"What is one interesting interaction you had today.",
-		"How have you seen the Lord's hand in your life today.",
-		"What was the strongest emotional experience and reaction you had today.",
-		"What is something you learned today.",
-		"What is something you are grateful for today.",
-		"What is something you wish you could've changed about today.",
-		"What is something you wish you could tell a family member.",
-		"Write about today as though you were writing a letter to a friend.",
-		"What is the best thing you did or saw today.",
-		};
+		// Initialize member variables once when the class is instantiated
+		_promptBank = new List<string>
+				{
+						"What is one interesting interaction you had today.",
+						"How have you seen the Lord's hand in your life today.",
+						"What was the strongest emotional experience and reaction you had today.",
+						"What is something you learned today.",
+						"What is something you are grateful for today.",
+						"What is something you wish you could've changed about today.",
+						"What is something you wish you could tell a family member.",
+						"Write about today as though you were writing a letter to a friend.",
+						"What is the best thing you did or saw today."
+				};
+		_random = new Random();
+	}
 
-		Random random = new Random();
-		int randomIndex = random.Next(PromptBank.Count);
-		string randomPrompt = PromptBank[randomIndex];
-		return randomPrompt;
+	public string GetRandomPrompt()
+	{
+		int randomIndex = _random.Next(_promptBank.Count);
+		return _promptBank[randomIndex];
 	}
 }

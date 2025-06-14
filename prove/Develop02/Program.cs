@@ -2,10 +2,14 @@ using System;
 
 class Program
 {
+	// _attributes here
+	private static string _filePath = "journal.csv";
+
 	static void Main(string[] args)
 	{
 		// Initialize variables
 		Journal journal = new Journal();
+		Entry entry = new Entry();
 		bool repeat = true;
 
 		// Welcomes user, prompts them navigate via menu
@@ -31,16 +35,17 @@ class Program
 			switch (choice)
 			{
 				case 1:
-					journal.DisplayJournal();
+					journal.DisplayJournal(_filePath);
 					break;
 				case 2:
-					journal.WriteJournal();
+					entry.WriteEntry(_filePath);
 					break;
 				case 3:
 					// Default location is bin/Debug/net6.0/journal.csv
 					// This csv file is excel compatible and exceeds requirements
 					Console.WriteLine("Please enter the file path for your journal (e.g., C:\\path\\to\\your\\journal.csv): ");
-					journal.SetFilePath(Console.ReadLine());
+					string newPath = journal.SetFilePath(_filePath, Console.ReadLine());
+					_filePath = newPath;
 					break;
 				case 4:
 					Console.WriteLine("Thank you for using the Journal Program. Goodbye!");

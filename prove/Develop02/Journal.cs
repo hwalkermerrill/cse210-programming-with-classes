@@ -3,24 +3,23 @@ using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography.X509Certificates;
 
-public class Journal
+class Journal
 {
-	public string _filePath = "journal.csv";
-	public void SetFilePath(string newPath)
+	public string SetFilePath(string currentPath, string newPath)
 	{
 		// Set a new filepath for the journal, with validation
 		if (string.IsNullOrWhiteSpace(newPath))
 		{
 			Console.WriteLine("Invalid file path. Keeping the current path.");
-			return;
+			return currentPath;
 		}
 		else
 		{
-			_filePath = newPath;
-			Console.WriteLine($"File path set to: {_filePath}");
+			Console.WriteLine($"File path set to: {newPath}");
+			return newPath;
 		}
 	}
-	public void DisplayJournal()
+	public void DisplayJournal(string _filePath)
 	{
 		// Check if the journal file exists
 		if (!File.Exists(_filePath))
@@ -48,23 +47,5 @@ public class Journal
 				Console.WriteLine();
 			}
 		}
-	}
-	public void WriteJournal()
-	{
-		// Write the journal entries to the CSV file
-		Prompts prompts = new Prompts();
-		string prompt = prompts.Prompt();
-
-		Console.WriteLine("\nWrite your journal entry for today while considering the following prompt: " + prompt);
-		Console.WriteLine("Press enter when you are finished writing your entry.\n");
-		string entry = Console.ReadLine();
-		DateTime todayDate = DateTime.Today;
-		string currentDate = todayDate.ToString("MM/dd/yyyy");
-
-		using (StreamWriter jEntry = new StreamWriter(_filePath, true))
-		{
-			jEntry.WriteLine($"\"{entry}\", Prompt: {prompt}, - {currentDate}");
-		}
-		Console.WriteLine("\nYour entry has been saved.");
 	}
 }
