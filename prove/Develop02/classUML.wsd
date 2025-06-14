@@ -7,41 +7,48 @@ entity "journal.csv" as CSVFile {
 }
 
 class Program {
+  _filePath: string
   +menuOptions: list
     1. readEntries
     2. writeEntries
     3. setFilePath
     4. quit
-  +switch(menuOption: int)
+  +Main ()
 }
 
 class Journal {
-  _filePath: string
-  _entry: string
-  _currentDate: string
-  _prompt: string
-  +SetFilePath(_filePath: string)
-  +DisplayJournal()
-  +WriteJournal()
+  newPath
+  +SetFilePath(_filePath: string, newPath:string)
+  +DisplayJournal(_filePath: string)
 }
 
 class Prompts {
-  +promptList: list
-  +Prompt()
+  +promptList: list<string>
+  +_random
+  +Prompts()
+  +GetRandomPrompt()
+}
+
+class Entry {
+  _today: DateTime
+  entry: string
+  currentDate: string
+  prompt: string
+  +WriteEntry(_filePath: String)
 }
 
 User -> Program: Runs Program
 Program --> User: Returns Results
 
 Program -> Journal: Read Journal Entries
-Program -> Journal: Writes Journal Entries
+Program -> Entry: Writes Journal Entries
 Program -> Journal: Change Filepath
 Journal --> Program: Returns Entries
 
-Journal -> Prompts: Requests Journal Prompts
-Prompts --> Journal: Returns Prompt
+Entry -> Prompts: Requests Journal Prompts
+Prompts --> Entry: Returns Prompt
 
-Journal -> CSVFile: Save New Entries
+Entry -> CSVFile: Save New Entries
 CSVFile --> Journal: Load Entries
 
 CSVFile -[hidden]-> Prompts
