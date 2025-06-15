@@ -54,7 +54,6 @@ namespace MindfulnessProgram
       Pause(30);
 
       int remainingTime = _duration - 30;
-      Animation spinner = new Animation("spinner");
 
       // Create local copy of question bank to prevent the same question from being asked twice.
       List<string> availableQuestions = new List<string>(_questions);
@@ -68,14 +67,14 @@ namespace MindfulnessProgram
         availableQuestions.RemoveAt(questionIndex);
 
         Console.WriteLine("\nReflect: " + selectedQuestion);
-        spinner.ShowSpinner(30);
+        Animation.ShowSpinner(30);
         remainingTime -= 30;
       }
 
       // Display final question for the remaining time.
       Console.WriteLine("\nFinal Reflection:");
       Console.WriteLine(_finalQuestion);
-      spinner.ShowSpinner(remainingTime);
+      Animation.ShowSpinner(remainingTime);
     }
   }
 }

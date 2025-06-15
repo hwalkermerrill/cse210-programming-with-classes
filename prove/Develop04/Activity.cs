@@ -50,8 +50,7 @@ namespace MindfulnessProgram
     // Displays a pause. Uses Animation for showing spinner.
     public virtual void Pause(int seconds)
     {
-      Animation spinner = new Animation("spinner");
-      spinner.ShowSpinner(seconds);
+      Animation.ShowSpinner(seconds);
     }
 
     // Check if the user wants to quit the activity; returns true if quitting.

@@ -4,12 +4,12 @@ using System.Threading;
 
 namespace MindfulnessProgram
 {
-  class Animation
+  static class Animation
   {
     // No attributes are used... Please don't mark me down for that xD
 
     // Basic spinner animation
-    public void ShowSpinner(int duration)
+    public static void ShowSpinner(int duration)
     {
       DateTime endTime = DateTime.Now.AddSeconds(duration);
       while (DateTime.Now < endTime)
@@ -25,7 +25,7 @@ namespace MindfulnessProgram
     }
 
     // Countdown animation displaying numbers
-    public void ShowCountdown(int seconds)
+    public static void ShowCountdown(int seconds)
     {
       for (int i = seconds; i > 0; i--)
       {
