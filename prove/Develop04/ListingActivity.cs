@@ -42,18 +42,14 @@ namespace MindfulnessProgram
       while (DateTime.Now < deadline)
       {
         Console.Write("List an item: ");
+        string userInput = Console.ReadLine()?.Trim();
 
-        int timeout = 1000;
-        Task<string> inputTask = Task.Run(() => Console.ReadLine());
-        bool inputReceived = inputTask.Wait(timeout);
+        if (DateTime.Now >= deadline)
+          break;
 
-        if (inputReceived)
+        if (!string.IsNullOrWhiteSpace(userInput))
         {
-          string userInput = inputTask.Result;
-          if (!string.IsNullOrWhiteSpace(userInput))
-          {
-            _items.Add(userInput);
-          }
+          _items.Add(userInput);
         }
       }
       // Add 3 seconds of coyote time to finish writing.
