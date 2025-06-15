@@ -43,12 +43,12 @@ namespace MindfulnessProgram
 					int defaultDuration = (selectedActivity is BreathingActivity) ? 1 : 2;
 					Console.Write($"Enter duration in minutes for this activity (max 5, default {defaultDuration}): ");
 					string durationInput = Console.ReadLine().Trim();
-					int durationMinutes;
+					double durationMinutes;
 					if (string.IsNullOrEmpty(durationInput))
 					{
 						durationMinutes = defaultDuration;
 					}
-					else if (int.TryParse(durationInput, out durationMinutes))
+					else if (double.TryParse(durationInput, out durationMinutes))
 					{
 						if (durationMinutes > 5)
 						{
@@ -61,7 +61,9 @@ namespace MindfulnessProgram
 						durationMinutes = defaultDuration;
 					}
 
-					selectedActivity.SetDuration(durationMinutes * 60);
+					int seconds = (int)Math.Ceiling(durationMinutes * 60);
+					selectedActivity.SetDuration(seconds);
+
 					Console.WriteLine($"{selectedActivity} will begin in... ");
 					Animation.ShowCountdown(3);
 					RunActivity(selectedActivity);
