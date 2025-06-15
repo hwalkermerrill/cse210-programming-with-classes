@@ -32,7 +32,7 @@ namespace MindfulnessProgram
         Pause(_interval);
       }
 
-      if (lastBreath == "in") ;
+      if (lastBreath == "in")
       {
         Console.WriteLine("And... Breathe out.");
         Pause(3);
