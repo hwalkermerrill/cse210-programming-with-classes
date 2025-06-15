@@ -42,6 +42,9 @@ namespace MindfulnessProgram
       Console.Write("List an item: ");
       int inputLine = Console.CursorTop;
 
+      //This saves the keystrokes until they press enter.
+      string inputBuffer = "";
+
       DateTime startTime = DateTime.Now;
       DateTime deadline = startTime.AddSeconds(_duration);
 
@@ -49,41 +52,68 @@ namespace MindfulnessProgram
       {
         //This forces the timer to remain on the same line.
         TimeSpan remaining = deadline - DateTime.Now;
-        int curLeft = Console.CursorLeft;
-        int curTop = Console.CursorTop;
         Console.SetCursorPosition(0, timerLine);
         Console.Write($"Time remaining: {remaining.Minutes:D2}:{remaining.Seconds:D2}");
-        Console.SetCursorPosition(curLeft, curTop);
 
-        int timeout = 1000; // 1 second timeout
-        Task<string> inputTask = Task.Run(() => Console.ReadLine().Trim());
-        bool inputReceived = inputTask.Wait(timeout);
+        //This allows the user to type in the input line.
+        Console.SetCursorPosition(inputBuffer.Length + "List an item: ".Length, inputLine);
 
-        if (inputReceived)
+        // Workaround to process user input via buffer.
+        if (Console.KeyAvailable)
         {
-          Console.SetCursorPosition(0, inputLine);
-          string userInput = inputTask.Result.Trim();
-          if (!string.IsNullOrEmpty(userInput))
+          ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+
+          if (keyInfo.Key == ConsoleKey.Enter)
           {
-            _items.Add(userInput);
+            if (!string.IsNullOrEmpty(inputBuffer))
+            {
+              _items.Add(inputBuffer);
+            }
+
+            ClearLine(inputLine);
+            Console.SetCursorPosition(0, inputLine);
+            Console.Write("List an item: ");
+            inputBuffer = "";
+          }
+          // Handle backspace to remove the last character.
+          else if (keyInfo.Key == ConsoleKey.Backspace)
+          {
+            if (inputBuffer.Length > 0)
+            {
+              inputBuffer = inputBuffer.Substring(0, inputBuffer.Length - 1);
+              ClearLine(inputLine);
+              Console.SetCursorPosition(0, inputLine);
+              Console.Write("List an item: " + inputBuffer);
+            }
+          }
+          else
+          {
+            // Append the character to the buffer.
+            inputBuffer += keyInfo.KeyChar;
+            Console.Write(keyInfo.KeyChar);
           }
 
-          Console.SetCursorPosition(0, inputLine);
-          Console.Write(new string(' ', Console.WindowWidth));
-          Console.SetCursorPosition(0, inputLine);
-          Console.Write("List an item: ");
+          // This lets the CPU rest
+          Thread.Sleep(50);
         }
       }
-      // Add 3 seconds of coyote time to finish writing.
-      Task<string> finalInput = Task.Run(() => Console.ReadLine());
-      if (!finalInput.Wait(2000))
-      {
-        Console.WriteLine("\nTime's up, Wile E. Coyote!");
-        // Wait the remaining 1 second (for a total of 3 seconds)
-        finalInput.Wait(1000);
-      }
+      // // Add 3 seconds of coyote time to finish writing.
+      // Task<string> finalInput = Task.Run(() => Console.ReadLine());
+      // if (!finalInput.Wait(2000))
+      // {
+      //   Console.WriteLine("\nTime's up, Wile E. Coyote!");
+      //   // Wait the remaining 1 second (for a total of 3 seconds)
+      //   finalInput.Wait(1000);
+      // }
 
-      Console.WriteLine($"You listed {_items.Count} items.");
+      Console.WriteLine($"\nYou listed {_items.Count} items.");
+    }
+    private void ClearLine(int line)
+    {
+      int currentLineCursor = Console.CursorTop;
+      Console.SetCursorPosition(0, line);
+      Console.Write(new string(' ', Console.WindowWidth));
+      Console.SetCursorPosition(0, line);
     }
   }
 }
