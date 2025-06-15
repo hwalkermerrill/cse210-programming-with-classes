@@ -1,4 +1,3 @@
-// Word.cs
 using System;
 using System.Linq;
 
