@@ -11,7 +11,7 @@ namespace MindfulnessProgram
     private List<string> _items;
     public ListingActivity()
     // Defaults to 2 minutes
-        : base("Listing", "This activity will help you focus on the good things in your life.\nYou'll list items related to the prompt.", 120)
+      : base("Listing", "This activity will help you focus on the good things in your life.\nYou'll list items related to the prompt.", 120)
     {
       _prompt = new List<string> {
         "List as many things as you can that you are grateful for:",

@@ -18,11 +18,11 @@ namespace MindfulnessProgram
 		{
 			// Initialize the list of activities.
 			_activities = new List<Activity>
-						{
-								new BreathingActivity(),
-								new ReflectionActivity(),
-								new ListingActivity()
-						};
+				{
+					new BreathingActivity(),
+					new ReflectionActivity(),
+					new ListingActivity()
+				};
 		}
 
 		public void Run()
@@ -37,8 +37,34 @@ namespace MindfulnessProgram
 
 				if (int.TryParse(input, out int selection) && selection > 0 && selection <= _activities.Count)
 				{
-					RunActivity(_activities[selection - 1]);
+					Activity selectedActivity = _activities[selection - 1];
+
+					// Determine default duration (in minutes) based on type.
+					int defaultDuration = (selectedActivity is BreathingActivity) ? 1 : 2;
+					Console.Write($"Enter duration in minutes for this activity (max 5, default {defaultDuration}): ");
+					string durationInput = Console.ReadLine().Trim();
+					int durationMinutes;
+					if (string.IsNullOrEmpty(durationInput))
+					{
+						durationMinutes = defaultDuration;
+					}
+					else if (int.TryParse(durationInput, out durationMinutes))
+					{
+						if (durationMinutes > 5)
+						{
+							Console.WriteLine("Duration exceeds 5 minutes. Reverting down to 5 minutes.");
+							durationMinutes = 5;
+						}
+					}
+					else
+					{
+						durationMinutes = defaultDuration;
+					}
+
+					selectedActivity.SetDuration(durationMinutes * 60);
+					RunActivity(selectedActivity);
 				}
+
 				else
 				{
 					Console.WriteLine("Invalid selection. Press Enter to try again...");

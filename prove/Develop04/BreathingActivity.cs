@@ -10,7 +10,7 @@ namespace MindfulnessProgram
     private int _interval = 5;
     public BreathingActivity()
     // Defaults to 1 minute duration.
-        : base("Breathing", "This activity will help you relax by guiding your breathing.\nFollow the prompts for inhaling and exhaling.", 60)
+      : base("Breathing", "This activity will help you relax by guiding your breathing.\nFollow the prompts for inhaling and exhaling.", 60)
     { }
 
     // Alternates between "Breathe in" and "Breathe out" until duration expires.
