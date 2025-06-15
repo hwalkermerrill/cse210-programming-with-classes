@@ -42,7 +42,7 @@ namespace MindfulnessProgram
       {
         //This forces the timer to remain on the same line.
         TimeSpan remaining = deadline - DateTime.Now;
-        Console.Write($"\rTime remaining: {remaining.Seconds,2} second(s). Type an item: ");
+        Console.Write($"\rTime remaining: {remaining.Seconds,2} second(s). Type an item: \n");
 
         int timeout = 1000; // 1 second timeout
         Task<string> inputTask = Task.Run(() => Console.ReadLine().Trim());
