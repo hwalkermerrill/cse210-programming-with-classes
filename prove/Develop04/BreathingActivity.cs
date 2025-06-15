@@ -7,7 +7,7 @@ namespace MindfulnessProgram
   class BreathingActivity : Activity
   {
     // attributes are private using _camelCase naming convention
-    private int _interval = 5;
+    private int _interval = 4;
     public BreathingActivity()
     // Defaults to 1 minute duration.
       : base("Breathing", "This activity will help you relax by guiding your breathing.\nFollow the prompts for inhaling and exhaling.", 60)
