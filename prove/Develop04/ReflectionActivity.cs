@@ -40,7 +40,7 @@ namespace MindfulnessProgram
           "How did this experience change you? Should it have changed you more?",
           "How is your relationship with Jesus Christ now, compared to then?",
         };
-      _finalQuestion = "How can you draw closer to Jesus Christ now, given all you have learned?";
+      _finalQuestion = "How can you draw closer to Jesus Christ now?";
 
     }
 
@@ -53,12 +53,29 @@ namespace MindfulnessProgram
       Console.WriteLine(_prompts[promptIndex]);
       Pause(30);
 
+      int remainingTime = _duration - 30;
       Animation spinner = new Animation("spinner");
-      foreach (string question in _questions)
+
+      // Create local copy of question bank to prevent the same question from being asked twice.
+      List<string> availableQuestions = new List<string>(_questions);
+
+      // This loop ensures each radom question stays up for 30 seconds.
+      // It will also display the _finalQuestion as the last question.
+      while (remainingTime >= 60 && availableQuestions.Count > 0)
       {
-        Console.WriteLine("\nReflect: " + question);
+        int questionIndex = random.Next(availableQuestions.Count);
+        string selectedQuestion = availableQuestions[questionIndex];
+        availableQuestions.RemoveAt(questionIndex);
+
+        Console.WriteLine("\nReflect: " + selectedQuestion);
         spinner.ShowSpinner(30);
+        remainingTime -= 30;
       }
+
+      // Display final question for the remaining time.
+      Console.WriteLine("\nFinal Reflection:");
+      Console.WriteLine(_finalQuestion);
+      spinner.ShowSpinner(remainingTime);
     }
   }
 }
