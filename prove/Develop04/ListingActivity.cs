@@ -39,18 +39,25 @@ namespace MindfulnessProgram
       DateTime startTime = DateTime.Now;
       DateTime deadline = startTime.AddSeconds(_duration);
 
+      // Coyote-Time the listing activity, plus a timeout at 1 minute for inactivity.
       while (DateTime.Now < deadline)
       {
         Console.Write("List an item: ");
-        string userInput = Console.ReadLine()?.Trim();
 
-        if (!string.IsNullOrWhiteSpace(userInput))
+        Task<string> inputTask = Task.Run(() => Console.ReadLine());
+        if (!inputTask.Wait(60000))
         {
-          _items.Add(userInput);
-        }
-        // Move check to here because of coyote time.
-        if (DateTime.Now >= deadline)
+          Console.WriteLine("\nNo input received for 1 minute. Timing out.");
           break;
+        }
+        else
+        {
+          string userInput = Console.ReadLine()?.Trim();
+          if (!string.IsNullOrWhiteSpace(userInput))
+          {
+            _items.Add(userInput);
+          }
+        }
       }
       // // Add 3 seconds of coyote time to finish writing.
       // Task<string> finalInput = Task.Run(() => Console.ReadLine());
