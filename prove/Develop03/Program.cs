@@ -15,10 +15,38 @@ namespace ScriptureMasterySharp
 		static void Main(string[] args)
 		{
 			Program program = new Program();
-			program.Run();
+			if (!program.ValidateReference())
+			{
+				Console.WriteLine("Exiting the program due to validation failure.");
+				return;
+			}
+			else
+			{
+				do // Run at least once
+				{
+					program.MemorizeScripture();
+
+					// Fun congratulations message for memorizing all of the scripturesA
+					if (!program._referenceObject.HasMoreScriptures())
+					{
+						Console.WriteLine("You have mastered this! Go forth as a Disciple of Jesus Christ, the Son of God, commissioned to say and do what He Himself would say and do if He personally were ministering to the very people to whom He has sent you!");
+						break;
+					}
+
+					// This loops allows the user to move on to a new scripture, if desired.
+					Console.WriteLine("Would you like to practice memorizing another scripture? (y/n):");
+					string userChoice = Console.ReadLine().Trim().ToLower();
+					if (userChoice == "y")
+					{
+						program._quit = false; // Reset the quit flag and try again.
+					}
+					else { break; }
+				} while (true);
+			}
+			;
 		}
 
-		public void Run()
+		public bool ValidateReference()
 		{
 			// This constructor loads all entries for the _referenceObject.
 			_referenceObject = new Reference(_filePath);
@@ -26,34 +54,10 @@ namespace ScriptureMasterySharp
 			// Registers if file validation fails.
 			if (_referenceObject._isEmpty)
 			{
-				Console.WriteLine("No scripture entries available.");
-				return;
+				Console.WriteLine("There are no scriptures to master.");
+				return false;
 			}
-
-			// At least one scripture must be memorized
-			do
-			{
-				MemorizeScripture();
-
-				// Fun congratulations message for memorizing all of the scripturesA
-				if (!_referenceObject.HasMoreScriptures())
-				{
-					Console.WriteLine("You have mastered this! Go forth as a Disciple of Jesus Christ, the Son of God, commissioned to say and do what He Himself would say and do if He personally were ministering to the very people to whom He has sent you!");
-					break;
-				}
-
-				// This loops allows the user to move on to a new scripture, if desired.
-				Console.WriteLine("Would you like to memorize another scripture? (y/n):");
-				string userChoice = Console.ReadLine().Trim().ToLower();
-				if (userChoice == "y")
-				{
-					_quit = false; // Reset the quit flag and try again.
-				}
-				else
-				{
-					break;
-				}
-			} while (true);
+			else { return true; }
 		}
 
 		private void MemorizeScripture()
