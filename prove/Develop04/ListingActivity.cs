@@ -52,7 +52,7 @@ namespace MindfulnessProgram
         }
         else
         {
-          string userInput = Console.ReadLine()?.Trim();
+          string userInput = inputTask.Result?.Trim();
           if (!string.IsNullOrWhiteSpace(userInput))
           {
             _items.Add(userInput);
