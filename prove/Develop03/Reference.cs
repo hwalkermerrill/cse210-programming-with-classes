@@ -62,6 +62,9 @@ namespace ScriptureMasterySharp
 			book = book.Trim();
 			chapterVerse = chapterVerse.Trim();
 
+			// Code debugging line
+			Console.WriteLine($"DEBUG: Processing chapterVerse field: '{chapterVerse}'");
+
 			// Split the chapter and verse on the ":".
 			string[] parts = chapterVerse.Split(':');
 			if (parts.Length != 2)
