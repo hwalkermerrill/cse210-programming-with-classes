@@ -6,12 +6,7 @@ namespace MindfulnessProgram
 {
   class Animation
   {
-    // Attributes are private using _camelCase naming convention
-    private string _animationType;
-    public Animation(string animationType)
-    {
-      _animationType = animationType;
-    }
+    // No attributes are used... Please don't mark me down for that xD
 
     // Basic spinner animation
     public void ShowSpinner(int duration)
