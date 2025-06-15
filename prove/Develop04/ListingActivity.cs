@@ -44,22 +44,22 @@ namespace MindfulnessProgram
         Console.Write("List an item: ");
         string userInput = Console.ReadLine()?.Trim();
 
-        if (DateTime.Now >= deadline)
-          break;
-
         if (!string.IsNullOrWhiteSpace(userInput))
         {
           _items.Add(userInput);
         }
+        // Move check to here because of coyote time.
+        if (DateTime.Now >= deadline)
+          break;
       }
-      // Add 3 seconds of coyote time to finish writing.
-      Task<string> finalInput = Task.Run(() => Console.ReadLine());
-      if (!finalInput.Wait(2000))
-      {
-        Console.WriteLine("\nTime's up, Wile E. Coyote!");
-        // Wait the remaining 1 second (for a total of 3 seconds)
-        finalInput.Wait(1000);
-      }
+      // // Add 3 seconds of coyote time to finish writing.
+      // Task<string> finalInput = Task.Run(() => Console.ReadLine());
+      // if (!finalInput.Wait(2000))
+      // {
+      //   Console.WriteLine("\nTime's up, Wile E. Coyote!");
+      //   // Wait the remaining 1 second (for a total of 3 seconds)
+      //   finalInput.Wait(1000);
+      // }
 
       Console.WriteLine($"\nYou listed {_items.Count} items.");
     }
