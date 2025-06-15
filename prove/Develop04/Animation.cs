@@ -17,10 +17,10 @@ namespace MindfulnessProgram
         foreach (char ch in new char[] { '/', '-', '\\', '|' })
         {
           Console.Write(ch);
-          Thread.Sleep(100);
-          Console.Write("\b");
+          Thread.Sleep(60);
         }
       }
+      Console.Write("\r \r");
       Console.WriteLine();
     }
 
@@ -30,7 +30,7 @@ namespace MindfulnessProgram
       for (int i = seconds; i > 0; i--)
       {
         Console.Write(i);
-        Thread.Sleep(120);
+        Thread.Sleep(1000);
       }
       Console.Write("\r \r");
       Console.WriteLine();
