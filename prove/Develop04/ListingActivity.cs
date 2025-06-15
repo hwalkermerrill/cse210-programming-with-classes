@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -35,6 +36,12 @@ namespace MindfulnessProgram
       int promptIndex = random.Next(_prompts.Count);
       Console.WriteLine(_prompts[promptIndex]);
 
+      //This reserves two lines, one for the timer, and the other for the user.
+      Console.WriteLine();
+      int timerLine = Console.CursorTop - 1;
+      Console.Write("List an item: ");
+      int inputLine = Console.CursorTop;
+
       DateTime startTime = DateTime.Now;
       DateTime deadline = startTime.AddSeconds(_duration);
 
@@ -42,7 +49,11 @@ namespace MindfulnessProgram
       {
         //This forces the timer to remain on the same line.
         TimeSpan remaining = deadline - DateTime.Now;
-        Console.Write($"\rTime remaining: {remaining.Seconds,2} second(s). Type an item: \n");
+        int curLeft = Console.CursorLeft;
+        int curTop = Console.CursorTop;
+        Console.SetCursorPosition(0, timerLine);
+        Console.Write($"Time remaining: {remaining.Minutes:D2}:{remaining.Seconds:D2}");
+        Console.SetCursorPosition(curLeft, curTop);
 
         int timeout = 1000; // 1 second timeout
         Task<string> inputTask = Task.Run(() => Console.ReadLine().Trim());
@@ -50,11 +61,17 @@ namespace MindfulnessProgram
 
         if (inputReceived)
         {
+          Console.SetCursorPosition(0, inputLine);
           string userInput = inputTask.Result.Trim();
           if (!string.IsNullOrEmpty(userInput))
           {
             _items.Add(userInput);
           }
+
+          Console.SetCursorPosition(0, inputLine);
+          Console.Write(new string(' ', Console.WindowWidth));
+          Console.SetCursorPosition(0, inputLine);
+          Console.Write("List an item: ");
         }
       }
       // Add 3 seconds of coyote time to finish writing.
