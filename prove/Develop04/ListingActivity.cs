@@ -1,19 +1,20 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace MindfulnessProgram
 {
   class ListingActivity : Activity
   {
     // Attributes are private using _camelCase naming convention
-    private List<string> _prompt;
+    private List<string> _prompts;
     private List<string> _items;
     public ListingActivity()
     // Defaults to 2 minutes
       : base("Listing", "This activity will help you focus on the good things in your life.\nYou'll list items related to the prompt.", 120)
     {
-      _prompt = new List<string> {
+      _prompts = new List<string> {
         "List as many things as you can that you are grateful for:",
         "List as many things as you can that make you happy:",
         "List as many people as you can whom have positively impacted your life:",
@@ -26,20 +27,45 @@ namespace MindfulnessProgram
       _items = new List<string>();
     }
 
-    // Lets the user input items until time is up; counts and displays them.
+    // Lets the user input items until time is up, with coyote time at the end for grace.
+    // Then, counts and displays the listed items.
     public void CountItems()
     {
-      Console.WriteLine(_prompt);
+      Random random = new Random();
+      int promptIndex = random.Next(_prompts.Count);
+      Console.WriteLine(_prompts[promptIndex]);
+
       DateTime startTime = DateTime.Now;
-      while ((DateTime.Now - startTime).TotalSeconds < _duration)
+      DateTime deadline = startTime.AddSeconds(_duration);
+
+      while (DateTime.Now < deadline)
       {
-        Console.Write("> ");
-        string input = Console.ReadLine().Trim();
-        if (!string.IsNullOrWhiteSpace(input))
+        //This forces the timer to remain on the same line.
+        TimeSpan remaining = deadline - DateTime.Now;
+        Console.Write($"\rTime remaining: {remaining.Seconds,2} second(s). Type an item: ");
+
+        int timeout = 1000; // 1 second timeout
+        Task<string> inputTask = Task.Run(() => Console.ReadLine().Trim());
+        bool inputReceived = inputTask.Wait(timeout);
+
+        if (inputReceived)
         {
-          _items.Add(input);
+          string userInput = inputTask.Result.Trim();
+          if (!string.IsNullOrEmpty(userInput))
+          {
+            _items.Add(userInput);
+          }
         }
       }
+      // Add 3 seconds of coyote time to finish writing.
+      Task<string> finalInput = Task.Run(() => Console.ReadLine());
+      if (!finalInput.Wait(2000))
+      {
+        Console.WriteLine("\nTime's up, Wile E. Coyote!");
+        // Wait the remaining 1 second (for a total of 3 seconds)
+        finalInput.Wait(1000);
+      }
+
       Console.WriteLine($"You listed {_items.Count} items.");
     }
   }
