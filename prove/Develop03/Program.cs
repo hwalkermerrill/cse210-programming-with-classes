@@ -40,9 +40,12 @@ namespace ScriptureMasterySharp
 				}
 
 				// Ask if they want another scripture mastery round.
-				Console.Write("\nWould you like to practice another scripture? (y/n): ");
+				Console.WriteLine($"\nYou have {remainingScriptures.Count} scripture{(remainingScriptures.Count == 1 ? "" : "s")} left to master.");
+				Console.Write(
+					"\nWould you like to practice another scripture?" +
+					"\n(type 'y' or press [Enter] to continue, or type 'n' to quit): ");
 				string choice = Console.ReadLine().Trim().ToLower();
-				if (choice != "y") break;
+				if (choice == "n") break;
 			}
 		}
 
