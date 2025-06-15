@@ -6,17 +6,17 @@ namespace ScriptureMasterySharp
 {
 	public class Word
 	{
-		// _attributes here, following _camelCase convention.
+		// _attributes here are private and following _camelCase convention.
 		private string _content;
-		// Boolean flag for hidden state.
-		public bool _isHidden { get; set; } = false;
+		private bool _isHidden;
 
 		public Word(string content)
 		{
 			_content = content;
+			_isHidden = false; // Starts visible
 		}
 
-		// Returns the as is, or as letters replaced with underscores if hidden.
+		// Returns each word as is, or as letters replaced with underscores if hidden.
 		public string GetDisplayContent()
 		{
 			if (!_isHidden)
