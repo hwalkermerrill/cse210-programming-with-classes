@@ -17,12 +17,25 @@ namespace MindfulnessProgram
     public void BreathingCycle()
     {
       DateTime startTime = DateTime.Now;
+      string lastBreath = "out";
       while ((DateTime.Now - startTime).TotalSeconds < _duration)
       {
         Console.WriteLine("Breathe in...");
+        lastBreath = "in";
         Pause(_interval * 2);
+
+        if ((DateTime.Now - startTime).TotalSeconds >= _duration)
+          break;
+
         Console.WriteLine("Breathe out...");
+        lastBreath = "out";
         Pause(_interval);
+      }
+
+      if (lastBreath == "in") ;
+      {
+        Console.WriteLine("And... Breathe out.");
+        Pause(3);
       }
     }
   }
