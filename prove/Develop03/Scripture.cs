@@ -1,4 +1,3 @@
-// Scripture.cs
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,31 +6,51 @@ namespace ScriptureMasterySharp
 {
 	public class Scripture
 	{
-		// _attributes here, following _camelCase convention.
-		private string _text;
-		public List<Word> _words { get; private set; } = new List<Word>();
+		// All attributes are private, using _camelCase naming convention.
+		private Reference _reference;
+		private List<Word> _words;
 
-		// Constructor receives the verse text.
-		public Scripture(string text)
+		public Scripture(Reference reference, string scriptureText)
 		{
-			_text = text;
-			ParseWords();
+			_reference = reference;
+			_words = new List<Word>();
+			ParseWords(scriptureText);
 		}
 
-		// Splits the verse into Word objects on spaces.
-		private void ParseWords()
+		// Splits the text into Word objects.
+		private void ParseWords(string scriptureText)
 		{
-			string[] splitWords = _text.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-			foreach (string word in splitWords)
+			string[] tokens = scriptureText.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+			foreach (string token in tokens)
 			{
-				_words.Add(new Word(word));
+				_words.Add(new Word(token));
 			}
 		}
 
-		// Returns the verse's text for display, with hidden words replaced by underscores.
+		//Combines the reference and displayed words into one string.
 		public string GetDisplayText()
 		{
-			return string.Join(" ", _words.Select(w => w.GetDisplayContent()));
+			string wordsText = string.Join(" ", _words.Select(word => word.GetDisplayContent()));
+			return _reference.GetReference() + "\n" + wordsText;
+
+		}
+
+		// Hides one random visible word.
+		public void HideRandomWord()
+		{
+			var visibleWords = _words.Where(word => !word.IsHidden()).ToList();
+			if (visibleWords.Any())
+			{
+				Random rand = new Random();
+				int index = rand.Next(visibleWords.Count);
+				visibleWords[index].Hide();
+			}
+		}
+
+		// Returns true if all words have been hidden.
+		public bool AllWordsHidden()
+		{
+			return _words.All(word => word.IsHidden());
 		}
 	}
 }

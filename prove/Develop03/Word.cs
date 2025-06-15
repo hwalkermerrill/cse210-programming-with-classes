@@ -5,28 +5,31 @@ namespace ScriptureMasterySharp
 {
 	public class Word
 	{
-		// _attributes here are private and following _camelCase convention.
+		// All attributes are private, using _camelCase naming convention.
 		private string _content;
 		private bool _isHidden;
 
 		public Word(string content)
 		{
 			_content = content;
-			_isHidden = false; // Starts visible
+			_isHidden = false;
 		}
-
-		// Returns each word as is, or as letters replaced with underscores if hidden.
+		public void Hide()
+		{
+			_isHidden = true;
+		}
+		public bool IsHidden()
+		{
+			return _isHidden;
+		}
+		// Returns the original word if it's not hidden,
+		// otherwise returns a version with letters replaced by underscores.
 		public string GetDisplayContent()
 		{
 			if (!_isHidden)
-			{
 				return _content;
-			}
 			else
-			{
-				char[] displayChars = _content.Select(c => char.IsLetter(c) ? '_' : c).ToArray();
-				return new string(displayChars);
-			}
+				return new string(_content.Select(c => char.IsLetter(c) ? '_' : c).ToArray());
 		}
 	}
 }

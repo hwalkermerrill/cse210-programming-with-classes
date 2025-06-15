@@ -1,121 +1,99 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace ScriptureMasterySharp
 {
 	class Program
 	{
-		// _attributes here, following _camelCase convention.
+		// All attributes are private, using _camelCase naming convention.
 		private string _filePath = "ScriptureMastery.csv";
 		private bool _quit = false;
-		public Reference _referenceObject;
 
 		static void Main(string[] args)
 		{
 			Program program = new Program();
-			if (!program.ValidateReference())
+			Scripture scripture = program.GetRandomScripture();
+			if (scripture == null)
 			{
-				Console.WriteLine("Exiting the program due to validation failure.");
-				return;
-			}
-			else
-			{
-				do // Run at least once
-				{
-					program.MemorizeScripture();
-
-					// Fun congratulations message for memorizing all of the scripturesA
-					if (!program._referenceObject.HasMoreScriptures())
-					{
-						Console.WriteLine("You have mastered this! Go forth as a Disciple of Jesus Christ, the Son of God, commissioned to say and do what He Himself would say and do if He personally were ministering to the very people to whom He has sent you!");
-						break;
-					}
-
-					// This loops allows the user to move on to a new scripture, if desired.
-					Console.WriteLine("Would you like to practice memorizing another scripture? (y/n):");
-					string userChoice = Console.ReadLine().Trim().ToLower();
-					if (userChoice == "y")
-					{
-						program._quit = false; // Reset the quit flag and try again.
-					}
-					else { break; }
-				} while (true);
-			}
-			;
-		}
-
-		public bool ValidateReference()
-		{
-			// This constructor loads all entries for the _referenceObject.
-			_referenceObject = new Reference(_filePath);
-
-			// Registers if file validation fails.
-			if (_referenceObject._isEmpty)
-			{
-				Console.WriteLine("There are no scriptures to master.");
-				return false;
-			}
-			else { return true; }
-		}
-
-		private void MemorizeScripture()
-		{
-			// Displays error if no random scripture can be selected.
-			if (!_referenceObject.SelectRandomScripture())
-			{
-				Console.WriteLine("No scripture could be selected.");
+				Console.WriteLine("No scripture available.");
 				return;
 			}
 
-			// Retrieve the mastery reference and the list of Scripture objects.
-			string masteryReference = _referenceObject._masteryReference;
-			List<Scripture> scriptures = _referenceObject._scriptures;
-
-			// Display the scripture in full on first load.
-			while (!_quit)
+			// Main loop: the scripture is shown and one word is hidden with each Enter.
+			while (!program._quit)
 			{
 				Console.Clear();
-				Console.WriteLine(masteryReference);
-				Console.WriteLine();
-				foreach (Scripture scripture in scriptures)
-				{
-					Console.WriteLine(scripture.GetDisplayText());
-				}
-
-				Console.WriteLine("\nPress Enter to hide a word, or type 'quit' to finish this scripture:");
+				Console.WriteLine(scripture.GetDisplayText());
+				Console.WriteLine("\nPress Enter to hide a word, or type 'quit' to finish:");
 				string input = Console.ReadLine();
 				if (input.Trim().ToLower() == "quit")
 				{
-					_quit = true;
-					continue;
-				}
-
-				// Gathers all visible words.
-				List<Word> visibleWords = new List<Word>();
-				foreach (Scripture scripture in scriptures)
-				{
-					visibleWords.AddRange(scripture._words.Where(word => !word._isHidden));
-				}
-
-				if (visibleWords.Any())
-				{
-					// Create one Random instance and hide one word.
-					Random rand = new Random();
-					int index = rand.Next(visibleWords.Count);
-					visibleWords[index]._isHidden = true;
+					program._quit = true;
 				}
 				else
 				{
-					Console.WriteLine("You have mastered this scripture!");
-					Console.WriteLine("Press Enter to continue.");
-					Console.ReadLine();
-					break;
+					scripture.HideRandomWord();
+					if (scripture.AllWordsHidden())
+					{
+						Console.WriteLine("\nYou have mastered this scripture!");
+						Console.WriteLine("Press Enter to exit.");
+						Console.ReadLine();
+						break;
+					}
 				}
 			}
-			// After finishing the scripture, reset _quit flag.
-			_quit = false;
+		}
+
+		// Reads the CSV file, selects a random scripture line.
+		// Then create a Scripture object (which holds both the reference book, number, and text).
+		private Scripture GetRandomScripture()
+		{
+			if (!File.Exists(_filePath))
+			{
+				Console.WriteLine("Scripture file not found.");
+				return null;
+			}
+
+			string[] allLines = File.ReadAllLines(_filePath);
+			if (allLines.Length < 2)
+			{
+				Console.WriteLine("No scripture entries found.");
+				return null;
+			}
+
+			// Skip the header line.
+			List<string> scriptureLines = new List<string>(allLines[1..]);
+			Random rand = new Random();
+			int index = rand.Next(scriptureLines.Count);
+			string selectedLine = scriptureLines[index];
+
+			// Break the CSV row into three parts based on the first two commas.
+			string[] parts = selectedLine.Split(new char[] { ',' }, 3);
+			if (parts.Length < 3)
+			{
+				Console.WriteLine("CSV format error: Expected 3 fields (book, chapter:verse, scripture text).");
+				return null;
+			}
+
+			// Retrieve each field.
+			string book = parts[0].Trim();
+			string chapterVerse = parts[1].Trim();
+			string scriptureText = parts[2].Trim();
+
+			// Remove any extraneous quotes from scriptureText.
+			scriptureText = scriptureText.Trim('"');
+
+			try
+			{
+				Reference reference = Reference.ParseReference(book, chapterVerse);
+				return new Scripture(reference, scriptureText);
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine("Error parsing reference: " + ex.Message);
+				return null;
+			}
 		}
 	}
 }
