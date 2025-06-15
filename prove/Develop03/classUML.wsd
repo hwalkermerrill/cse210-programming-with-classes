@@ -1,55 +1,61 @@
 @startuml
+
+' ----- Other Entities -----
+
 entity User
 entity "ScriptureMastery.csv" as CSVFile {
-  _reference: CSV
-  _scriptures: CSV
+  Reference Book,
+  Chapter:Verse,
+  """Scripture"" | ""Verse"""
 }
+
+' ----- Classes -----
 
 class Program {
-  _filepath: string
-  _quit: bool
-  _reference: string
-  scripture: list <string>
-  words: list <string>
-  Main()
-  GetMastery(_filepath: string)
-  BuildReference(_reference: string)
-  HideWord(words: list)
-  DisplayMastery(_quit)
+  - _filePath : string
+  - _quit : bool
+  + Main() : void
+  + LoadScriptureMastery() : List<string>
+  + BuildScripture(pickedCSVLine : string) : Scripture
+  + RunMemorizeLoop(scripture : Scripture) : void
 }
-
-class Reference {
-  _reference: string
-  scripture: list <string>
-  words: list <string>
-  BuildScriptures(_reference: string)
-}
-
 class Scripture {
-  _scripture: string
-  words: list <string>
-  BuildWords(_scripture: string)
+  - _reference : Reference
+  - _words : List<Word>
+  + Scripture(reference : Reference, scriptureText : string)
+  + GetDisplayText() : string
+  + HideRandomWord() : void
+  + AllWordsHidden() : bool
 }
-
+class Reference {
+  - _book : string
+  - _chapter : int
+  - _startVerse : int
+  - _endVerse : int?
+  - _addStartVerse : int?
+  - _addEndVerse : int?
+  + Reference(_book, _chapter, _startVerse, _otherAttributes?)
+  + GetReference() : string
+  + ParseReference(book : string, chapterVerse : string) : Reference
+}
 class Word {
-  _word: string
-  _visible: bool
+  - _content : string
+  - _isHidden : bool
+  + Word(content : string)
+  + GetDisplayContent() : string
+  + Hide() : void
+  + IsHidden() : bool
 }
 
-User -> Main: Runs Program
-User <-- Main: Displays Scripture Mastery
+' ----- Relationships -----
 
-Main -> CSVFile: Selects Scripture Mastery
-Main <-- CSVFile: Returns Reference and Scripture
 
-CSVFile -[hidden]-> Reference
+User --> Program : Runs Program
 
-Main -> Reference: Delivers Scripture Mastery Reference
-Main <-- Reference: Returns Reference
+Program --> CSVFile : Reads CSV Data into List
+Program --> Scripture : Transforms List into Scripture Mastery
 
-Reference -> Scripture: Delivers Reference Scripture
-Reference <-- Scripture: Returns Scriptures
+Scripture --> Reference : Parses Data into Reference
+Scripture --> Word : Parses List into Word Strings
 
-Scripture -> Word: Delivers Scripture Words
-Scripture <-- Word: Returns Words
 @enduml
