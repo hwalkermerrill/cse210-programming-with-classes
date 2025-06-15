@@ -34,8 +34,8 @@ namespace ScriptureMasterySharp
 				if (remainingScriptures.Count == 0)
 				{
 					Console.WriteLine(
-							"\nYou have mastered every scripture mastery passage!" +
-							"\nGo forth as a Disciple of Jesus Christ, the Son of God, commissioned to say and do what He Himself would say and do if he were personally ministering to the people to whom he has sent you.");
+						"\nYou have mastered every scripture mastery passage!" +
+						"\nGo forth as a Disciple of Jesus Christ, the Son of God, commissioned to say and do what He Himself would say and do if he were personally ministering to the people to whom he has sent you.");
 					break;
 				}
 

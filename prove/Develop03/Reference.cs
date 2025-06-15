@@ -34,8 +34,8 @@ namespace ScriptureMasterySharp
 		public string GetReference()
 		{
 			string verseRange = _endVerse.HasValue
-					? $"{_chapter}:{_startVerse}-{_endVerse.Value}"
-					: $"{_chapter}:{_startVerse}";
+				? $"{_chapter}:{_startVerse}-{_endVerse.Value}"
+				: $"{_chapter}:{_startVerse}";
 
 			// If there's no additional range, return the verse range with the book.
 			if (!_addStartVerse.HasValue)
@@ -43,8 +43,8 @@ namespace ScriptureMasterySharp
 
 			// Process the additional range.
 			string additionalRange = _addEndVerse.HasValue
-					? $"{_chapter}:{_addStartVerse.Value}-{_addEndVerse.Value}"
-					: $"{_chapter}:{_addStartVerse.Value}";
+				? $"{_chapter}:{_addStartVerse.Value}-{_addEndVerse.Value}"
+				: $"{_chapter}:{_addStartVerse.Value}";
 
 			// Output lower verse first.
 			if (_addStartVerse.Value < _startVerse)
@@ -103,8 +103,8 @@ namespace ScriptureMasterySharp
 				// A range is provided.
 				string[] rangeParts = segment.Split('-');
 				if (rangeParts.Length != 2 ||
-						!int.TryParse(rangeParts[0].Trim(), out int start) ||
-						!int.TryParse(rangeParts[1].Trim(), out int end))
+					!int.TryParse(rangeParts[0].Trim(), out int start) ||
+					!int.TryParse(rangeParts[1].Trim(), out int end))
 				{
 					throw new FormatException("Invalid verse range.");
 				}
