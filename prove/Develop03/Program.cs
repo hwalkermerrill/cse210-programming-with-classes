@@ -6,48 +6,48 @@ namespace ScriptureMasterySharp
 {
 	class Program
 	{
-		// All attributes are private, using _camelCase naming convention.
-		private string _filePath = "ScriptureMastery.csv";
-		private bool _quit = false;
+		// all attributes are private, using _camelCase naming convention.
+		private const string _filePath = "ScriptureMastery.csv";
+		private static Random _random = new Random();
 
 		static void Main(string[] args)
 		{
-			Program program = new Program();
-			Scripture scripture = program.GetRandomScripture();
-			if (scripture == null)
-			{
-				Console.WriteLine("No scripture available.");
-				return;
-			}
+			// Load every CSV record (skip header) into a list.
+			List<string> remainingScriptures = LoadScriptureMastery();
+			if (remainingScriptures == null || remainingScriptures.Count == 0) return;
 
-			// Main loop: the scripture is shown and one word is hidden with each Enter.
-			while (!program._quit)
+			// Main loop continues until the user quits or completes the CSV file.
+			while (remainingScriptures.Count > 0)
 			{
-				Console.Clear();
-				Console.WriteLine(scripture.GetDisplayText());
-				Console.WriteLine("\nPress Enter to hide a word, or type 'quit' to finish:");
-				string input = Console.ReadLine();
-				if (input.Trim().ToLower() == "quit")
+				// Pick and remove one random row from the bank.
+				int pick = _random.Next(remainingScriptures.Count);
+				string picked = remainingScriptures[pick];
+				remainingScriptures.RemoveAt(pick);
+
+				// Skip empty lines or whitespace.
+				Scripture scripture = BuildScripture(picked);
+				if (scripture == null) continue;
+
+				RunMemorizeLoop(scripture);
+
+				// Check if there are any verses left.
+				if (remainingScriptures.Count == 0)
 				{
-					program._quit = true;
+					Console.WriteLine(
+							"\nYou have mastered every scripture mastery passage!" +
+							"\nGo forth as a Disciple of Jesus Christ, the Son of God, commissioned to say and do what He Himself would say and do if he were personally ministering to the people to whom he has sent you.");
+					break;
 				}
-				else
-				{
-					scripture.HideRandomWord();
-					if (scripture.AllWordsHidden())
-					{
-						Console.WriteLine("\nYou have mastered this scripture!");
-						Console.WriteLine("Press Enter to exit.");
-						Console.ReadLine();
-						break;
-					}
-				}
+
+				// Ask if they want another scripture mastery round.
+				Console.Write("\nWould you like to practice another scripture? (y/n): ");
+				string choice = Console.ReadLine().Trim().ToLower();
+				if (choice != "y") break;
 			}
 		}
 
-		// Reads the CSV file, selects a random scripture line.
-		// Then create a Scripture object (which holds both the reference book, number, and text).
-		private Scripture GetRandomScripture()
+		// Convert the CSV file into a list of scripture mastery entries.
+		private static List<string> LoadScriptureMastery()
 		{
 			if (!File.Exists(_filePath))
 			{
@@ -55,51 +55,29 @@ namespace ScriptureMasterySharp
 				return null;
 			}
 
-			string[] allLines = File.ReadAllLines(_filePath);
-
-			// // Diagnostic: output every line with its index.
-			// for (int i = 0; i < allLines.Length; i++)
-			// {
-			// 	Console.WriteLine($"Line {i}: '{allLines[i]}'");
-			// }
-
-			if (allLines.Length < 2)
+			string[] lines = File.ReadAllLines(_filePath);
+			if (lines.Length < 2)
 			{
 				Console.WriteLine("No scripture entries found.");
 				return null;
 			}
 
-			// Skip the header line.
-			List<string> scriptureLines = new List<string>(allLines[1..]);
+			// Skip the header line and return the rest as a list.
+			return new List<string>(lines[1..]);
+		}
 
-			// // Diagnostic: output the count of scripture lines.
-			// Console.WriteLine($"Total scripture records (after header skip): {scriptureLines.Count}");
-
-			Random rand = new Random();
-			int index = rand.Next(scriptureLines.Count);
-			string selectedLine = scriptureLines[index];
-
-			// // Diagnostic: show selected line (the entire line as read from CSV).
-			// Console.WriteLine($"Debug: Selected line: '{selectedLine}'");
-
-			// Break the CSV row into three parts based on the first two commas.
-			string[] parts = selectedLine.Split(new char[] { ',' }, 3);
+		// Convert a CSV line into a Scripture object.
+		private static Scripture BuildScripture(string csvLine)
+		{
+			string[] parts = csvLine.Split(',', 3);
 			if (parts.Length < 3)
 			{
-				Console.WriteLine("CSV format error: Expected 3 fields (book, chapter:verse, scripture text).");
+				Console.WriteLine($"Malformed CSV row:\n{csvLine}");
 				return null;
 			}
-
-			// Retrieve each field.
 			string book = parts[0].Trim();
 			string chapterVerse = parts[1].Trim();
-			string scriptureText = parts[2].Trim();
-
-			// // Diagnostic: output the extracted fields.
-			// Console.WriteLine($"Debug: book='{book}', chapterVerse='{chapterVerse}', scriptureText='{scriptureText}'");
-
-			// Remove any extraneous quotes from scriptureText.
-			scriptureText = scriptureText.Trim('"');
+			string scriptureText = parts[2].Trim().Trim('"');
 
 			try
 			{
@@ -108,8 +86,41 @@ namespace ScriptureMasterySharp
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine("Error parsing reference: " + ex.Message);
+				Console.WriteLine($"Error parsing reference in row:\n{csvLine}\n{ex.Message}");
 				return null;
+			}
+		}
+
+		// Main loop for memorizing a single scripture.
+		private static void RunMemorizeLoop(Scripture scripture)
+		{
+			bool quitThisScripture = false;
+
+			while (!quitThisScripture)
+			{
+				Console.Clear();
+				Console.WriteLine(scripture.GetDisplayText());
+				Console.WriteLine("\nPress Enter to hide a word, or type 'quit' to exit this verse:");
+
+				string input = Console.ReadLine();
+				if (input.Trim().ToLower() == "quit")
+				{
+					// leave the verse unfinished, go back to main menu
+					quitThisScripture = true;
+					continue;
+				}
+
+				scripture.HideRandomWord();
+
+				if (scripture.AllWordsHidden())
+				{
+					Console.Clear();
+					Console.WriteLine(scripture.GetDisplayText());
+					Console.WriteLine("\nYou have mastered this scripture!");
+					Console.WriteLine("Press Enter to continue.");
+					Console.ReadLine();
+					break;
+				}
 			}
 		}
 	}
