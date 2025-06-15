@@ -30,7 +30,7 @@ namespace MindfulnessProgram
       for (int i = seconds; i > 0; i--)
       {
         Console.Write(i);
-        Thread.Sleep(1000);
+        Thread.Sleep(100);
         Console.Write("\r ");
         Console.Write("\r");
       }
