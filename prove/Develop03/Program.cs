@@ -56,6 +56,13 @@ namespace ScriptureMasterySharp
 			}
 
 			string[] allLines = File.ReadAllLines(_filePath);
+
+			// // Diagnostic: output every line with its index.
+			// for (int i = 0; i < allLines.Length; i++)
+			// {
+			// 	Console.WriteLine($"Line {i}: '{allLines[i]}'");
+			// }
+
 			if (allLines.Length < 2)
 			{
 				Console.WriteLine("No scripture entries found.");
@@ -64,9 +71,16 @@ namespace ScriptureMasterySharp
 
 			// Skip the header line.
 			List<string> scriptureLines = new List<string>(allLines[1..]);
+
+			// // Diagnostic: output the count of scripture lines.
+			// Console.WriteLine($"Total scripture records (after header skip): {scriptureLines.Count}");
+
 			Random rand = new Random();
 			int index = rand.Next(scriptureLines.Count);
 			string selectedLine = scriptureLines[index];
+
+			// // Diagnostic: show selected line (the entire line as read from CSV).
+			// Console.WriteLine($"Debug: Selected line: '{selectedLine}'");
 
 			// Break the CSV row into three parts based on the first two commas.
 			string[] parts = selectedLine.Split(new char[] { ',' }, 3);
@@ -80,6 +94,9 @@ namespace ScriptureMasterySharp
 			string book = parts[0].Trim();
 			string chapterVerse = parts[1].Trim();
 			string scriptureText = parts[2].Trim();
+
+			// // Diagnostic: output the extracted fields.
+			// Console.WriteLine($"Debug: book='{book}', chapterVerse='{chapterVerse}', scriptureText='{scriptureText}'");
 
 			// Remove any extraneous quotes from scriptureText.
 			scriptureText = scriptureText.Trim('"');
