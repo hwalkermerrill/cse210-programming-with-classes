@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Threading;
 
 namespace MindfulnessProgram
@@ -22,6 +21,12 @@ namespace MindfulnessProgram
     //Allows the user to change the activity's duration.
     public void SetDuration(int seconds)
     {
+      if (seconds <= 0)
+      {
+        Console.WriteLine($"Invalid duration, setting activity duration to 1 minute.");
+        _duration = 60;
+        return;
+      }
       _duration = seconds;
     }
 
