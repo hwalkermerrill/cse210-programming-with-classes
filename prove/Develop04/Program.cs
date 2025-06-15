@@ -62,6 +62,8 @@ namespace MindfulnessProgram
 					}
 
 					selectedActivity.SetDuration(durationMinutes * 60);
+					Console.WriteLine($"{selectedActivity} will begin in... ");
+					Animation.ShowCountdown(3);
 					RunActivity(selectedActivity);
 				}
 

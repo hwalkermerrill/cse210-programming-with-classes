@@ -31,7 +31,8 @@ namespace MindfulnessProgram
       {
         Console.Write(i);
         Thread.Sleep(1000);
-        Console.Write("\b \b");
+        Console.Write("\r ");
+        Console.Write("\r");
       }
       Console.WriteLine();
     }
