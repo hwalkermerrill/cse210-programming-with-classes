@@ -54,6 +54,7 @@ Classes:
   // Method for _addPoints (requires override)
   // Method for _displayTask (requires override)
     // Show task type, name, description, ect.
+    
   > simple subclass
     _taskComplete
     // Simple tasks that can be completed once
