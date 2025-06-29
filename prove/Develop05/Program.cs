@@ -71,18 +71,18 @@ namespace EternalQuest
 			Console.Write("Name: ");
 			var name = Console.ReadLine();
 			Console.Write("Description: ");
-			var desc = Console.ReadLine();
+			var description = Console.ReadLine();
 			Console.Write("Point value: ");
-			var pts = int.Parse(Console.ReadLine());
+			var points = int.Parse(Console.ReadLine());
 
 			switch (type)
 			{
 				case "1":
-					_goals.Add(new SimpleGoal(name, desc, pts));
+					_goals.Add(new SimpleGoal(name, description, points));
 					break;
 
 				case "2":
-					_goals.Add(new EternalGoal(name, desc, pts));
+					_goals.Add(new EternalGoal(name, description, points));
 					break;
 
 				case "3":
@@ -90,7 +90,7 @@ namespace EternalQuest
 					var target = int.Parse(Console.ReadLine());
 					Console.Write("Bonus on completion: ");
 					var bonus = int.Parse(Console.ReadLine());
-					_goals.Add(new ChecklistGoal(name, desc, pts, target, bonus));
+					_goals.Add(new ChecklistGoal(name, description, points, target, bonus));
 					break;
 
 				default:
