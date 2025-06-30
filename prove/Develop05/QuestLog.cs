@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace EternalQuest
 {
@@ -123,16 +124,22 @@ namespace EternalQuest
     private void LoadMasterRecords()
     {
       _masterRecords.Clear();
-      foreach (var line in File.ReadAllLines(_masterRecordPath))
+      var lines = File.ReadAllLines(_masterRecordPath);
+      foreach (var line in lines.Skip(1)) // Skip header
       {
         var parts = line.Split(',');
         if (parts.Length < 2) continue;
-        if (DateTime.TryParse(parts[1],
+
+        var fileName = parts[0].Trim();
+        var dateText = parts[1].Trim();
+
+        if (DateTime.TryParse(
+          dateText,
           null,
           DateTimeStyles.RoundtripKind,
           out DateTime dt))
         {
-          _masterRecords[parts[0]] = dt;
+          _masterRecords[fileName] = dt;
         }
       }
     }
@@ -140,6 +147,7 @@ namespace EternalQuest
     private void SaveMasterRecords()
     {
       using var sw = new StreamWriter(_masterRecordPath, false);
+      sw.WriteLine("fileName,dateTime");
       foreach (var key in _masterRecords)
         sw.WriteLine($"{key.Key},{key.Value:o}");
     }
