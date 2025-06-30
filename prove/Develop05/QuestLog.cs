@@ -11,16 +11,11 @@ namespace EternalQuest
   {
     // attributes here, following _camelCase naming convention
     private readonly string _masterRecordPath = "MasterQuestRecord.csv";
-    private List<MasterEntry> _masterEntries = new List<MasterEntry>();
     private string _activeQuestPath;
+    private Dictionary<string, DateTime> _masterRecords = new Dictionary<string, DateTime>();
 
     // properties here
     public string ActiveQuestPath => _activeQuestPath;
-    private class MasterEntry
-    {
-      public string FileName { get; set; }
-      public DateTime LastAccess { get; set; }
-    }
 
     // methods here
     // Build program on startup
@@ -35,22 +30,22 @@ namespace EternalQuest
     public void LoadQuest()
     {
       Console.WriteLine("You have embarked on the following adventures:");
-      for (int i = 0; i < _masterEntries.Count; i++)
-        Console.WriteLine($"{i + 1}. {_masterEntries[i].FileName}");
+      var quests = _masterRecords.Keys.ToList();
+      for (int i = 0; i < quests.Count; i++)
+        Console.WriteLine($"{i + 1}. {quests[i]}");
 
       Console.Write("Choose Your Quest! (Select the corresponding number): ");
       if (int.TryParse(Console.ReadLine(), out int set)
-          && set >= 1 && set <= _masterEntries.Count)
+        && set >= 1 && set <= _masterRecords.Count)
       {
-        var entry = _masterEntries[set - 1];
-        entry.LastAccess = DateTime.UtcNow;
-        _activeQuestPath = entry.FileName;
+        _activeQuestPath = quests[set - 1];
+        _masterRecords[_activeQuestPath] = DateTime.UtcNow;
         UpdateQuestLog();
         Console.WriteLine($"Embarking on the {_activeQuestPath} quest...");
       }
       else
       {
-        Console.WriteLine("Invalid selection.");
+        Console.WriteLine("You cannot go that way! Turn Back!!");
       }
     }
 
@@ -71,16 +66,7 @@ namespace EternalQuest
         Console.WriteLine($"You are already on a quest to {name}, we shall continue!");
       }
 
-      var existing = _masterEntries.FirstOrDefault(e => e.FileName == name);
-      if (existing != null)
-        existing.LastAccess = DateTime.UtcNow;
-      else
-        _masterEntries.Add(new MasterEntry
-        {
-          FileName = name,
-          LastAccess = DateTime.UtcNow
-        });
-
+      _masterRecords[name] = DateTime.UtcNow;
       _activeQuestPath = name;
       UpdateQuestLog();
     }
@@ -94,12 +80,10 @@ namespace EternalQuest
       if (!File.Exists(_activeQuestPath))
         return goals;
 
-      foreach (var line in File.ReadAllLines(_activeQuestPath))
-      {
-        // TODO: Parse each line into one of SimpleGoal/EternalGoal/ChecklistGoal,
-        //       extracting point values, completion counts, etc.
-        //       Also parse out your saved totalScore if you choose to store it here.
-      }
+      // foreach (var line in File.ReadAllLines(_activeQuestPath))
+      // {
+      //   // TODO: Parse each line into the correct goal type
+      // }
 
       return goals;
     }
@@ -115,8 +99,7 @@ namespace EternalQuest
         sw.WriteLine(BuildLineForGoal(goal));
       }
 
-      var entry = _masterEntries.First(e => e.FileName == _activeQuestPath);
-      entry.LastAccess = DateTime.UtcNow;
+      _masterRecords[_activeQuestPath] = DateTime.UtcNow;
       UpdateQuestLog();
     }
 
@@ -132,21 +115,17 @@ namespace EternalQuest
 
     private void LoadAvailableQuests()
     {
-      _masterEntries.Clear();
+      _masterRecords.Clear();
       foreach (var line in File.ReadAllLines(_masterRecordPath))
       {
         var parts = line.Split(',');
         if (parts.Length < 2) continue;
         if (DateTime.TryParse(parts[1],
-              null,
-              DateTimeStyles.RoundtripKind,
-              out DateTime dt))
+          null,
+          DateTimeStyles.RoundtripKind,
+          out DateTime dt))
         {
-          _masterEntries.Add(new MasterEntry
-          {
-            FileName = parts[0],
-            LastAccess = dt
-          });
+          _masterRecords[parts[0]] = dt;
         }
       }
     }
@@ -154,25 +133,19 @@ namespace EternalQuest
     private void UpdateQuestLog()
     {
       using var sw = new StreamWriter(_masterRecordPath, false);
-      foreach (var e in _masterEntries)
-        sw.WriteLine($"{e.FileName},{e.LastAccess:o}");
+      foreach (var key in _masterRecords)
+        sw.WriteLine($"{key.Key},{key.Value:o}");
     }
 
     // Defaults to most recently accessed quest
     private void ChooseActiveQuest()
     {
-      var newest = _masterEntries
-        .OrderByDescending(e => e.LastAccess)
-        .First();
-      _activeQuestPath = newest.FileName;
+      _activeQuestPath = _masterRecords.OrderByDescending(key => key.Value).FirstOrDefault().Key;
     }
 
     private string BuildLineForGoal(BaseGoal g)
     {
-      // TODO: Serialize each goal into a single CSV line.
-      // Example (pseudo‐format): 
-      // type|Name|Description|PointValue|timesDone|target|bonus|isComplete
-      // return $"{g.GetType().Name}|{g.Name}|{g.Description}|{...}";
+      // TODO: Serialize each goal into a single CSV line;
       return "";
     }
   }

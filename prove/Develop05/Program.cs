@@ -114,7 +114,7 @@ namespace EternalQuest
 
 			Console.Write("Which did you accomplish? (select the number): ");
 			if (int.TryParse(Console.ReadLine(), out int index)
-					&& index > 0 && index <= _goals.Count)
+				&& index > 0 && index <= _goals.Count)
 			{
 				_goals[index - 1].RecordEvent();
 			}
