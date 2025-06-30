@@ -15,6 +15,11 @@ namespace EternalQuest
       _timesDone = 0;
     }
 
+    public int TimesDone
+    {
+      get => _timesDone;
+      private set => _timesDone = value;
+    }
     public override bool IsComplete => false; // eternal goals can never be complete
 
     // methods here
@@ -28,6 +33,10 @@ namespace EternalQuest
     public override string DisplayGoal()
     {
       return $"[∞] {Name} – {PointValue} pts each ({_timesDone}× done)";
+    }
+    internal void RestoreCount(int count)
+    {
+      _timesDone = count;
     }
   }
 }

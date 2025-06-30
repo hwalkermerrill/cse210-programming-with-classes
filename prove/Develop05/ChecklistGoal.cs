@@ -25,6 +25,9 @@ namespace EternalQuest
       _completionBonus = completionBonus;
     }
 
+    public int TimesDone => _completeCount;
+    public int TargetCount => _targetCount;
+    public int CompletionBonus => _completionBonus;
     public override bool IsComplete => _completeCount >= _targetCount;
 
     // methods here
@@ -54,5 +57,10 @@ namespace EternalQuest
       var checkbox = IsComplete ? "[X]" : "[ ]";
       return $"{checkbox} {Name} ({Description}) – {PointValue} pts each, {_completeCount}/{_targetCount} done, bonus {_completionBonus}";
     }
+    internal void RestoreProgress(int timesDone, bool isComplete)
+    {
+      _completeCount = timesDone;
+    }
+
   }
 }
