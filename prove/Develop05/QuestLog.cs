@@ -11,18 +11,19 @@ namespace EternalQuest
   {
     // attributes here, following _camelCase naming convention
     private readonly string _masterRecordPath = "MasterQuestRecord.csv";
+    private readonly Dictionary<string, DateTime> _masterRecords = new Dictionary<string, DateTime>();
     private string _activeQuestPath;
-    private Dictionary<string, DateTime> _masterRecords = new Dictionary<string, DateTime>();
 
     // properties here
     public string ActiveQuestPath => _activeQuestPath;
+    const string DefaultQuestFile = "MainQuest.csv";
 
     // methods here
     // Build program on startup
     public void Initialize()
     {
       EnsureMasterRecordExists();
-      LoadAvailableQuests();
+      LoadMasterRecords();
       ChooseActiveQuest();
     }
 
@@ -40,7 +41,7 @@ namespace EternalQuest
       {
         _activeQuestPath = quests[set - 1];
         _masterRecords[_activeQuestPath] = DateTime.UtcNow;
-        UpdateQuestLog();
+        SaveMasterRecords();
         Console.WriteLine($"Embarking on the {_activeQuestPath} quest...");
       }
       else
@@ -54,6 +55,12 @@ namespace EternalQuest
     {
       Console.Write("What shall we call your grand new adventure? : ");
       var name = Console.ReadLine().Trim();
+      if (string.IsNullOrEmpty(name))
+      {
+        Console.WriteLine("You must name your quest! Try again.");
+        return;
+      }
+
       if (!name.EndsWith(".csv")) name += ".csv";
 
       if (!File.Exists(name))
@@ -68,7 +75,7 @@ namespace EternalQuest
 
       _masterRecords[name] = DateTime.UtcNow;
       _activeQuestPath = name;
-      UpdateQuestLog();
+      SaveMasterRecords();
     }
 
     // Loads goals from the active quest CSV
@@ -100,7 +107,7 @@ namespace EternalQuest
       }
 
       _masterRecords[_activeQuestPath] = DateTime.UtcNow;
-      UpdateQuestLog();
+      SaveMasterRecords();
     }
 
     private void EnsureMasterRecordExists()
@@ -108,12 +115,12 @@ namespace EternalQuest
       if (!File.Exists(_masterRecordPath))
       {
         File.WriteAllText(_masterRecordPath,
-          $"MainQuest.csv,{DateTime.UtcNow:o}\n");
-        File.WriteAllText("MainQuest.csv", "");
+          $"{DefaultQuestFile},{DateTime.UtcNow:o}\n");
+        File.WriteAllText($"{DefaultQuestFile}", "");
       }
     }
 
-    private void LoadAvailableQuests()
+    private void LoadMasterRecords()
     {
       _masterRecords.Clear();
       foreach (var line in File.ReadAllLines(_masterRecordPath))
@@ -130,7 +137,7 @@ namespace EternalQuest
       }
     }
 
-    private void UpdateQuestLog()
+    private void SaveMasterRecords()
     {
       using var sw = new StreamWriter(_masterRecordPath, false);
       foreach (var key in _masterRecords)
