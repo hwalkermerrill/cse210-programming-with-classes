@@ -6,11 +6,16 @@ namespace EternalQuest
 	class Program
 	{
 		// attributes here, following _camelCase naming convention
-		private static int _totalScore = 0;
+		private static QuestLog _questLog = new QuestLog();
 		private static List<BaseGoal> _goals = new List<BaseGoal>();
+		private static int _totalScore = 0;
 
+		// main program
 		static void Main(string[] args)
 		{
+			_questLog.Initialize();
+			_goals = _questLog.LoadQuestGoals(out _totalScore);
+
 			bool exit = false;
 			while (!exit)
 			{
@@ -19,8 +24,8 @@ namespace EternalQuest
 				Console.WriteLine("1. Add New Goal");
 				Console.WriteLine("2. Record Event");
 				Console.WriteLine("3. Show All Goals");
-				Console.WriteLine("4. Save to File");
-				Console.WriteLine("5. Load from File");
+				Console.WriteLine("4. Start a New Quest");
+				Console.WriteLine("5. Resume an Existing Quest");
 				Console.WriteLine("6. Quit");
 				Console.Write("Select: ");
 				var choice = Console.ReadLine();
@@ -30,16 +35,22 @@ namespace EternalQuest
 					case "1": AddGoal(); break;
 					case "2": RecordEvent(); break;
 					case "3": ShowGoals(); break;
-					case "4": SaveGoals(); break;
-					case "5": LoadGoals(); break;
+					case "4":
+						_questLog.StartNewQuest();
+						_goals.Clear();
+						_totalScore = 0;
+						break;
+					case "5":
+						_questLog.LoadQuest();
+						_goals = _questLog.LoadQuestGoals(out _totalScore);
+						break;
 					case "6": exit = true; break;
-					default: Console.WriteLine("Invalid."); break;
+					default: Console.WriteLine("Your quest awaits! Try again!"); break;
 				}
 
 				if (!exit)
 				{
-					Console.WriteLine("\n(press Enter to continue)");
-					Console.ReadLine();
+					Console.WriteLine("\nFarewell, and Good Luck, Adventurer! \nPress Enter to continue...");
 				}
 			}
 		}
@@ -53,7 +64,7 @@ namespace EternalQuest
 		{
 			if (_goals.Count == 0)
 			{
-				Console.WriteLine("No goals defined yet.");
+				Console.WriteLine("No goals have been defined yet for this quest.");
 				return;
 			}
 
@@ -65,14 +76,14 @@ namespace EternalQuest
 
 		static void AddGoal()
 		{
-			Console.WriteLine("Choose goal type: 1) Simple  2) Eternal  3) Checklist");
+			Console.WriteLine("Choose a goal type: 1) Simple  2) Eternal  3) Checklist");
 			var type = Console.ReadLine();
 
 			Console.Write("Name: ");
 			var name = Console.ReadLine();
 			Console.Write("Description: ");
 			var description = Console.ReadLine();
-			Console.Write("Point value: ");
+			Console.Write("Point value (aim for 400 per day): ");
 			var points = int.Parse(Console.ReadLine());
 
 			switch (type)
@@ -80,21 +91,18 @@ namespace EternalQuest
 				case "1":
 					_goals.Add(new SimpleGoal(name, description, points));
 					break;
-
 				case "2":
 					_goals.Add(new EternalGoal(name, description, points));
 					break;
-
 				case "3":
-					Console.Write("How many times needed? ");
+					Console.Write("Times Required to Complete: ");
 					var target = int.Parse(Console.ReadLine());
-					Console.Write("Bonus on completion: ");
+					Console.Write("Completion Bonus: ");
 					var bonus = int.Parse(Console.ReadLine());
 					_goals.Add(new ChecklistGoal(name, description, points, target, bonus));
 					break;
-
 				default:
-					Console.WriteLine("Invalid type.");
+					Console.WriteLine("You are not yet strong enough for this quest.");
 					break;
 			}
 		}
@@ -104,7 +112,7 @@ namespace EternalQuest
 			ShowGoals();
 			if (_goals.Count == 0) return;
 
-			Console.Write("Which goal number did you accomplish? ");
+			Console.Write("Which did you accomplish? (select the number): ");
 			if (int.TryParse(Console.ReadLine(), out int index)
 					&& index > 0 && index <= _goals.Count)
 			{
@@ -112,18 +120,8 @@ namespace EternalQuest
 			}
 			else
 			{
-				Console.WriteLine("Invalid selection.");
+				Console.WriteLine("You cannot complete part of this quest, yet.");
 			}
-		}
-
-		static void SaveGoals()
-		{
-			Console.WriteLine("SaveGoals() not implemented yet.");
-		}
-
-		static void LoadGoals()
-		{
-			Console.WriteLine("LoadGoals() not implemented yet.");
 		}
 	}
 }
