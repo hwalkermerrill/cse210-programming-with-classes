@@ -10,10 +10,7 @@ namespace EternalQuest
 
     // properties here
     public SimpleGoal(string name, string description, int pointValue)
-      : base(name, description, pointValue)
-    {
-      _completed = false;
-    }
+      : base(name, description, pointValue) { }
 
     public override bool IsComplete => _completed;
 
@@ -37,5 +34,7 @@ namespace EternalQuest
       var checkbox = _completed ? "[X]" : "[ ]";
       return $"{checkbox} {Name} ({Description}) – {PointValue} pts";
     }
+    internal void Restore(bool completed)
+    => _completed = completed;
   }
 }

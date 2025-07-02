@@ -100,7 +100,6 @@ namespace EternalQuest
         return goals;
 
       var lines = File.ReadAllLines(_activeQuestPath);
-
       foreach (var line in lines.Skip(1)) // skip header
       {
         var parts = line.Split(',', 8);
@@ -122,26 +121,32 @@ namespace EternalQuest
           "Checklist" => new ChecklistGoal(name, description, points, targetCount, completeBonus),
           _ => null
         };
-        if (goal != null)
-        {
-          // now restore its internal counters & completion flag:
-          switch (goal)
-          {
-            case SimpleGoal sg:
-              if (isComplete) sg.RecordEvent(); // or set private field via reflection
-              break;
-            case EternalGoal eg:
-              for (int i = 0; i < timesDone; i++) eg.RecordEvent();
-              break;
-            case ChecklistGoal cg:
-              // update its timesDone and bonus
-              // you may need to add a constructor or setter to restore state
-              break;
-          }
-          goals.Add(goal);
-        }
-      }
+        if (goal == null) continue;
 
+        // Restore goal state
+        switch (goal)
+        {
+          case SimpleGoal sg:
+            sg.Restore(isComplete);
+            break;
+          case EternalGoal eg:
+            eg.RestoreCount(timesDone);
+            break;
+          case ChecklistGoal cg:
+            cg.RestoreProgress(timesDone);
+            break;
+        }
+        // Totals the score
+        goals.Add(goal);
+        totalScore += goal switch
+        {
+          SimpleGoal sg => sg.IsComplete ? sg.PointValue : 0,
+          EternalGoal eg => eg.PointValue * timesDone,
+          ChecklistGoal cg => cg.PointValue * cg.TimesDone
+            + (cg.IsComplete ? cg.CompletionBonus : 0),
+          _ => 0
+        };
+      }
       return goals;
     }
 

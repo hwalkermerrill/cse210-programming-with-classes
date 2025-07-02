@@ -9,17 +9,9 @@ namespace EternalQuest
     private int _timesDone;
 
     // properties here
+    public int TimesDone => _timesDone;
     public EternalGoal(string name, string description, int pointValue)
-        : base(name, description, pointValue)
-    {
-      _timesDone = 0;
-    }
-
-    public int TimesDone
-    {
-      get => _timesDone;
-      private set => _timesDone = value;
-    }
+        : base(name, description, pointValue) { }
     public override bool IsComplete => false; // eternal goals can never be complete
 
     // methods here

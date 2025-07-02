@@ -6,7 +6,7 @@ namespace EternalQuest
   public class ChecklistGoal : BaseGoal
   {
     // attributes here, following _camelCase naming convention
-    private int _completeCount;
+    private int _timesDone;
     private readonly int _targetCount;
     private readonly int _completionBonus;
 
@@ -20,15 +20,14 @@ namespace EternalQuest
     )
     : base(name, description, pointValue)
     {
-      _completeCount = 0;
       _targetCount = targetCount;
       _completionBonus = completionBonus;
     }
 
-    public int TimesDone => _completeCount;
+    public int TimesDone => _timesDone;
     public int TargetCount => _targetCount;
     public int CompletionBonus => _completionBonus;
-    public override bool IsComplete => _completeCount >= _targetCount;
+    public override bool IsComplete => _timesDone >= _targetCount;
 
     // methods here
     public override int RecordEvent()
@@ -39,27 +38,23 @@ namespace EternalQuest
         return 0;
       }
 
-      _completeCount++;
-      var exp = PointValue;
-      Console.WriteLine($"Progress on \"{Name}\": {_completeCount}/{_targetCount} (+{PointValue} pts)");
-
-      if (_completeCount == _targetCount)
+      _timesDone++;
+      if (_timesDone == _targetCount)
       {
-        exp += _completionBonus;
         Console.WriteLine($"*** Checklist complete! Bonus +{_completionBonus} pts! ***");
       }
 
-      return exp;
+      return PointValue + (IsComplete ? _completionBonus : 0);
     }
 
     public override string DisplayGoal()
     {
       var checkbox = IsComplete ? "[X]" : "[ ]";
-      return $"{checkbox} {Name} ({Description}) – {PointValue} pts each, {_completeCount}/{_targetCount} done, bonus {_completionBonus}";
+      return $"{checkbox} {Name} ({Description}) – {PointValue} pts each, {_timesDone}/{_targetCount} done, bonus {_completionBonus}";
     }
-    internal void RestoreProgress(int timesDone, bool isComplete)
+    internal void RestoreProgress(int timesDone)
     {
-      _completeCount = timesDone;
+      _timesDone = timesDone;
     }
 
   }

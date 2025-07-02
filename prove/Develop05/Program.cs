@@ -21,9 +21,9 @@ namespace EternalQuest
 			{
 				Console.Clear();
 				DisplayScore();
-				Console.WriteLine("1. Add New Goal");
-				Console.WriteLine("2. Record Event");
-				Console.WriteLine("3. Show All Goals");
+				Console.WriteLine("1. Add New Quest Goal");
+				Console.WriteLine("2. Record Quest Event");
+				Console.WriteLine("3. Show All Quest Goals");
 				Console.WriteLine("4. Start a New Quest");
 				Console.WriteLine("5. Resume an Existing Quest");
 				Console.WriteLine("6. Quit");
@@ -32,8 +32,8 @@ namespace EternalQuest
 
 				switch (choice)
 				{
-					case "1": AddGoal(); break;
-					case "2": RecordEvent(); break;
+					case "1": AddGoal(); Persist(); break;
+					case "2": RecordEvent(); Persist(); break;
 					case "3": ShowGoals(); break;
 					case "4":
 						_questLog.StartNewQuest();
@@ -83,7 +83,7 @@ namespace EternalQuest
 			var name = Console.ReadLine();
 			Console.Write("Description: ");
 			var description = Console.ReadLine();
-			Console.Write("Point value (aim for 400 per day): ");
+			Console.Write("Point value (aim for 400/day): ");
 			var points = int.Parse(Console.ReadLine());
 
 			switch (type)
@@ -96,9 +96,9 @@ namespace EternalQuest
 					break;
 				case "3":
 					Console.Write("Times Required to Complete: ");
-					var target = int.Parse(Console.ReadLine());
-					Console.Write("Completion Bonus: ");
-					var bonus = int.Parse(Console.ReadLine());
+					int target = int.TryParse(Console.ReadLine(), out int tar) ? tar : 1;
+					Console.Write("Completion bonus: ");
+					int bonus = int.TryParse(Console.ReadLine(), out int bon) ? bon : 0;
 					_goals.Add(new ChecklistGoal(name, description, points, target, bonus));
 					break;
 				default:
@@ -112,16 +112,22 @@ namespace EternalQuest
 			ShowGoals();
 			if (_goals.Count == 0) return;
 
-			Console.Write("Which did you accomplish? (select the number): ");
+			Console.Write("Which goal you achieve? (select number): ");
 			if (int.TryParse(Console.ReadLine(), out int index)
 				&& index > 0 && index <= _goals.Count)
 			{
-				_goals[index - 1].RecordEvent();
+				int earned = _goals[index - 1].RecordEvent();
+				_totalScore += earned;
+				Persist();
 			}
 			else
 			{
 				Console.WriteLine("You cannot complete part of this quest, yet.");
 			}
+		}
+		static void Persist()
+		{
+			_questLog.SaveQuestGoals(_goals, _totalScore);
 		}
 	}
 }
