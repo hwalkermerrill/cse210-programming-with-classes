@@ -41,7 +41,7 @@ namespace EternalQuest
 						_totalScore = 0;
 						break;
 					case "5":
-						_questLog.LoadQuest();
+						_questLog.ResumeQuest();
 						_goals = _questLog.LoadQuestGoals(out _totalScore);
 						break;
 					case "6": exit = true; break;

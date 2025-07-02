@@ -31,7 +31,7 @@ namespace EternalQuest
     }
 
     // Change active quest file
-    public void LoadQuest()
+    public void ResumeQuest()
     {
       Console.WriteLine("You have embarked on the following adventures:");
       var quests = _masterRecords.Keys.ToList();
@@ -157,7 +157,7 @@ namespace EternalQuest
         {
           SimpleGoal sg => $"Simple,{sg.Name},\"{sg.Description}\",{sg.PointValue},1,{(sg.IsComplete ? 1 : 0)},{sg.IsComplete},{0}",
           EternalGoal eg => $"Eternal,{eg.Name},\"{eg.Description}\",{eg.PointValue},0,{eg.TimesDone},false,0",
-          ChecklistGoal cg => $"Checklist,{cg.Name},\"{cg.Description}\",{cg.PointValue},{cg.TargetCount}{cg.TimesDone},{cg.IsComplete},{cg.CompletionBonus}",
+          ChecklistGoal cg => $"Checklist,{cg.Name},\"{cg.Description}\",{cg.PointValue},{cg.TargetCount},{cg.TimesDone},{cg.IsComplete},{cg.CompletionBonus}",
           _ => throw new InvalidOperationException("Unknown quests cannot be followed...")
         };
         sw.WriteLine(line);
@@ -228,12 +228,6 @@ namespace EternalQuest
       _activeQuestPath = _masterRecords
         .OrderByDescending(key => key.Value.LastAccess)
         .First().Key;
-    }
-
-    private string BuildLineForGoal(BaseGoal g)
-    {
-      // TODO: Serialize each goal into a single CSV line;
-      return "";
     }
   }
 }
