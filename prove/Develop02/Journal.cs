@@ -31,8 +31,6 @@ class Journal
 			return;
 		}
 
-		Console.WriteLine("Here are your past journal entries:\n");
-
 		// Read the journal entries from the CSV file
 		using (StreamReader jEntry = new StreamReader(_filePath))
 		{
@@ -40,10 +38,15 @@ class Journal
 			while (!jEntry.EndOfStream)
 			{
 				string line = jEntry.ReadLine();
-				var jParts = line.Split(',', 3);
-				var jText = jParts[0].Trim().Trim('"');
-				var jPrompt = jParts[1].Trim();
-				var jDate = DateTime.Parse(jParts[2].Trim());
+				int quoteEnd = line.IndexOf("\",", 1);
+				if (quoteEnd < 0) quoteEnd = line.Length;
+
+				string jText = line.Substring(1, quoteEnd - 1);
+				string remainder = line.Substring(quoteEnd + 2);
+
+				var jParts = remainder.Split(',', 2);
+				var jPrompt = jParts[0].Trim();
+				var jDate = DateTime.Parse(jParts[1].Trim());
 
 				_entries.Add(new Entry(jText, jPrompt, jDate));
 			}
