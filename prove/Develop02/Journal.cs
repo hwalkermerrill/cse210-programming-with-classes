@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Security.Cryptography.X509Certificates;
 
 class Journal
 {
+	// _attributes here
+	private List<Entry> _entries = new List<Entry>();
 	public string SetFilePath(string currentPath, string newPath)
 	{
 		// Set a new filepath for the journal, with validation
@@ -21,6 +22,8 @@ class Journal
 	}
 	public void DisplayJournal(string _filePath)
 	{
+		_entries.Clear();
+
 		// Check if the journal file exists
 		if (!File.Exists(_filePath))
 		{
@@ -37,14 +40,19 @@ class Journal
 			while (!jEntry.EndOfStream)
 			{
 				string line = jEntry.ReadLine();
-				string[] values = line.Split(',');
-				List<string> lists = new List<string>(values);
+				var jParts = line.Split(',', 3);
+				var jText = jParts[0].Trim().Trim('"');
+				var jPrompt = jParts[1].Trim();
+				var jDate = DateTime.Parse(jParts[2].Trim());
 
-				foreach (string value in lists)
-				{
-					Console.Write($"{value} ");
-				}
-				Console.WriteLine();
+				_entries.Add(new Entry(jText, jPrompt, jDate));
+			}
+
+			Console.WriteLine("Here are your past journal entries:\n");
+			foreach (var entry in _entries)
+			{
+				entry.DisplayEntry();
+				Console.WriteLine("----------NEXT ENTRY----------\n");
 			}
 		}
 	}
