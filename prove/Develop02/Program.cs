@@ -1,5 +1,12 @@
 using System;
 
+// Copied from my submission comment: To exceed requirements, I encapsulated the journal
+// entry from the user within quotation marks as its saved to the .csv file, so that the
+// file will work on Excel. I also merged the writing and saving of a prompt into one
+// function, and I set a default file save location so a user may immediately begin
+// writing OR change the file location. Finally, I added validation for several things,
+// like ensuring the file specified from a user's entered filepath exists before changing
+// from the default pathing.
 class Program
 {
 	// _attributes here
