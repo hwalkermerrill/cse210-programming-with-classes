@@ -2,6 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 
+// Exceeds requirements - For the reflection activity, in addition to having a small bank
+// of prompts and questions, I added a final question that is programed to always be
+// displayed last and punctuate the purpose of the activity. This question is asked last
+// regardless of how much time was put into the activity, by comparing how long it takes
+// to ask a question with how much time is left. I also tried to add in coyote time for
+// the listing activity, but gave up and instead added a timeout timer.
+
 namespace MindfulnessProgram
 {
 	class Program
