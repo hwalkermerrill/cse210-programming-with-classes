@@ -2,6 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
+// Copied from my submission comments: Exceeds requirements - I utilized a CSV file
+// (using correct use of quotations to ensure it can be read correctly) with all the
+// scripture masteries for the book of Mormon, I added verification and a looping ability
+// to start trying to memorize a different scripture once the scripture in use has been
+// completed, and I added fun and encouraging comments to the console as a user completes
+// each and all of the scripture mastery memorization tasks.
+
 namespace ScriptureMasterySharp
 {
 	class Program
