@@ -1,0 +1,165 @@
+Copy of rubric:
+Note, all things must use correct naming convention
+(like attributes using _camelCase) and properties are not allowed.
+
+
+W10 Developer
+Criteria	-----  Pts  -----	 Rating  -----  Description
+Principle: Encapsulation
+  5 pts
+  Complete
+  All member variables are private, or they are protected if a derived class needs direct access.
+
+  3.5 pts
+  Developing
+  Some member variables are private.
+
+  0 pts
+  Incomplete
+  No private data members are used.
+
+Principle: Inheritance
+  5 pts
+  Complete
+  Each specific type of goal class is derived from a base class.
+
+  3.5 pts
+  Developing
+  At least one class is derived from a base class.
+
+  0 pts
+  Incomplete
+  Inheritance is not used.
+
+Principle: Polymorphism
+  10 pts
+  Complete
+  Method overriding is used in all places where it is appropriate.
+
+  7 pts
+  Developing
+  At least one method is overridden in a derived class.
+
+  0 pts
+  Incomplete
+  Method overriding is not used.
+
+Inheriting attributes
+  10 pts
+  Complete
+  All methods and member variables that could be shared among classes are defined in the base class.
+
+  7 pts
+  Developing
+  Some methods or member variables were inherited and used in derived classes.
+  0 pts
+
+  Incomplete
+  No methods or member variables are inherited.
+
+Functionality: Simple Goals
+  10 pts
+  Complete
+  Simple goals can be displayed, checked off, and points received.
+
+  7 pts
+  Developing
+  Simple goals have some functionality, but do not work correctly.
+
+  0 pts
+  Incomplete
+  Simple goals are not present.
+
+Functionality: Eternal Goals
+  10 pts
+  Complete
+  Eternal goals can be displayed and points received, but they cannot be marked as completed (which is the correct behavior for these goals).
+
+  7 pts
+  Developing
+  Eternal goals have some functionality, but do not work correctly.
+
+  0 pts
+  Incomplete
+  Eternal goals are not present.
+
+Functionality: Checklist Goals
+  13 pts
+  Complete
+  Checklist goals can be displayed and progress can be recorded incrementally. Points are awarded each time with a bonus when the goal is finished. The goal shows as being completed when it has been accomplished the required number of times.
+
+  10 pts
+  Developing
+  Checklist goals have some functionality but do not work correctly.
+
+  0 pts
+  Incomplete
+  Checklist goals are not present.
+
+Functionality: User-created Goals
+  10 pts
+  Complete
+  The user can create new goals and specify their parameters as defined in the program specification.
+
+  7 pts
+  Developing
+  The user can create at least one kind of goal.
+
+  0 pts
+  Incomplete
+  The user cannot create goals.
+
+Functionality: Saving/Loading
+  10 pts
+  Complete
+  The list of goals along with the user's progress on those goals can be saved and loaded.
+
+  7 pts
+  Developing
+  The list of goals can be saved and loaded.
+
+  0 pts
+  Incomplete
+  Saving/Loading does not work.
+
+Style: Whitespace
+(Vertical and horizontal whitespace (blank lines and indentation) is correct.)
+  5 pts
+  Complete
+  Vertical and horizontal whitespace (blank lines, indentation, braces) is correct throughout the program.
+
+  3.5 pts
+  Developing
+  Whitespace is generally correct, but some errors exist.
+
+  0 pts
+  Incomplete
+  Very little attention is shown to vertical and horizontal whitespace.
+
+Style: Naming Conventions
+  5 pts
+  Complete
+  Classes and methods use TitleCase, member variables use _underscoreCamelCase, local variables use camelCase.
+
+  3.5 pts
+  Developing
+  Naming is mostly consistent, but some elements were missed.
+
+  0 pts
+  Incomplete
+  Naming is inconsistent.
+
+Shows creativity and exceeds core requirements
+  7 pts
+  Complete
+  The program exceeds the core requirements as explained in comments in the Program.cs.
+
+  5 pts
+  Developing
+  An attempt to exceed core requirements was explained in comments in the Program.cs but it is not functioning properly.
+
+  0 pts
+  Incomplete
+  An attempt to exceed core requirements was not explained in comments in the Program.cs file.
+
+Total Points: 100
