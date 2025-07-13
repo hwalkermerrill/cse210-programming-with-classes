@@ -1,0 +1,135 @@
+Formatted Copy of rubric:
+Note, all things must use correct naming convention
+(like attributes using _camelCase) and properties are not allowed.
+
+W13 Developer
+Criteria	-----  Pts  -----	 Rating  -----  Description
+Principle: Abstraction
+  20 pts
+  Complete
+  The program is divided into classes with a single responsibility.
+
+  14 pts
+  Developing
+  The program uses classes throughout, but some classes are too large and complex and their behaviors should be further separated into smaller classes.
+
+  0 pts
+  Incomplete
+  The program makes only minimal use of classes.
+
+Principle: Encapsulation
+  20 pts
+  Complete
+  All member variables are private (or protected if specifically needed in a derived class), and public methods are defined for necessary behaviors. Classes manage their own information.
+
+  14 pts
+  Developing
+  Encapsulation is used appropriately in most places.
+
+  0 pts
+  Incomplete
+  Minimal attempt at encapsulation is made (for example, public member variables are accessed in various places in the program).
+
+Principle: Inheritance
+  20 pts
+  Complete
+  All behaviors and attributes, shared among multiple related classes, are placed in a base class and inherited.
+
+  14 pts
+  Developing
+  Inheritance is used in the program.
+
+  0 pts
+  Incomplete
+  Inheritance is not used in the program.
+
+Principle: Polymorphism
+  20 pts
+  Complete
+  Method overriding is used where appropriate.
+
+  14 pts
+  Developing
+  At least one method from a base class is correctly overriden.
+
+  0 pts
+  Incomplete
+  Method overriding is not used in the program.
+
+Functionality: Program Runs
+  20 pts
+  Complete
+  For the Open-ended version: The program runs without runtime errors. For the Foundation 4 version: All four programs run without errors.
+
+  18 pts
+  Nearly Complete
+  For the Open-ended version: The program runs initially, but OCCASIONAL runtime errors exist during execution. For the Foundation 4 version: At least three of the programs contain more than the "Hello World" code and run.
+
+  10 pts
+  Developing
+  For the Open-ended version: The program runs initially, but FREQUENT runtime errors exist during execution. For the Foundation 4 version: At least two of the programs contain more than the "Hello World" code and run.
+
+  5 pts
+  Attempted
+  For the Foundation 4 version: At least one of the programs contains more than the "Hello World" code and runs.
+
+  0 pts
+  Incomplete
+  The program does not run.
+
+Functionality: Program can be played
+  80 pts
+  Complete
+  For the Open-ended version: The core functionality of the program is present. For the Foundation 4 version: At least three of the programs work correctly.
+
+  67 pts
+  Nearly Complete
+  For the Open-ended version: Some user interaction is present that is consistent with the desired functionality. For the Foundation 4 version: At least two of the programs work correctly.
+
+  40 pts
+  Developing
+  For the Open-ended version: Some user interaction is present that is consistent with the desired functionality. For the Foundation 4 version: At least two of the programs work correctly.
+
+  20 pts
+  Attempted
+  For the Open-ended version: The program displays content that resembles the desired output. For the Foundation 4 version: At least one of the programs works correctly.
+
+  0 pts
+  Incomplete
+  The program has minimal interaction or functionality.
+
+Style: Whitespace
+  10 pts
+  Complete
+  Vertical and horizontal whitespace (blank lines, indentation, braces) is correct throughout the program (fewer than 3 errors).
+
+  7.5 pts
+  Nearly Complete
+  Whitespace is generally correct, but a few errors exist (3-6 errors)
+
+  5 pts
+  Developing
+  Whitespace is generally correct, but many errors exist (more than 6 errors).
+
+  0 pts
+  Incomplete
+  Very little attention is shown to vertical and horizontal whitespace.
+
+Style: Naming Conventions
+  10 pts
+  Complete
+  Classes and methods use TitleCase, member variables use _underscoreCamelCase, local variables use camelCase.
+
+  7.5 pts
+  Nearly Complete
+  Naming is generally correct, but a few errors exist (3-6 errors).
+
+  5 pts
+  Developing
+  Naming is generally correct, but many errors exist (more than 6 errors).
+
+  0 pts
+  Incomplete
+  Naming is inconsistent.
+
+Total Points: 200
