@@ -27,4 +27,4 @@ Note: The YouTube example is just to give you a context for creating classes to 
 information. You will not actually be connecting to YouTube or downloading content in
 any way.
 
-// This text is added as a text to see if the aptop im borrowing can push github commands
+// This text is added as a text to see if the laptop im borrowing can push github commands
