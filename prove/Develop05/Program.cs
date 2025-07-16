@@ -9,6 +9,54 @@ namespace EternalQuest
 		private static QuestLog _questLog = new QuestLog();
 		private static List<BaseGoal> _goals = new List<BaseGoal>();
 		private static int _totalScore = 0;
+		private static int _levelNumber = 1;
+		private static string _levelTitle = "Novice Adventurer - Fledgling";
+
+		// I used two arrays to store levels and thresholds
+		private static readonly int[] _levelThresholdsArray = {
+			0, // Level 1
+			2000, // Level 2
+			5000, // Level 3
+			9000, // Level 4
+			15000, // Level 5
+			23000, // Level 6
+			35000, // Level 7
+			51000, // Level 8
+			75000, // Level 9
+			105000, // Level 10
+			155000, // Level 11
+			220000, // Level 12
+			315000, // Level 13
+			445000, // Level 14
+			635000, // Level 15
+			890000, // Level 16
+			1300000, // Level 17
+			1800000, // Level 18
+			2550000, // Level 19
+			3600000  // Level 20
+		};
+		private static readonly string[] _levelTitles = {
+			"Novice Adventurer - Fledgling",
+			"Novice Adventurer - Green",
+			"Novice Adventurer - Aspirant",
+			"Novice Adventurer - Amateur",
+			"Apprentice Adventurer",
+			"Apprentice Adventurer - Capable",
+			"Apprentice Adventurer - Adept",
+			"Apprentice Adventurer - Accomplished",
+			"Apprentice Adventurer - Senior",
+			"Journeyman Adventurer",
+			"Journeyman Adventurer - Veteran",
+			"Journeyman Adventurer - Knight",
+			"Journeyman Adventurer - Ace",
+			"Journeyman Adventurer - Commander",
+			"Expert Adventurer",
+			"Expert Adventurer - Exemplar",
+			"Expert Adventurer - Hero",
+			"Expert Adventurer - Champion",
+			"Expert Adventurer - Lord",
+			"Master Adventurer"
+		};
 
 		// main program
 		static void Main(string[] args)
@@ -20,10 +68,10 @@ namespace EternalQuest
 			while (!exit)
 			{
 				Console.Clear();
-				DisplayScore();
-				Console.WriteLine("1. Add New Quest Goal");
-				Console.WriteLine("2. Record Quest Event");
-				Console.WriteLine("3. Show All Quest Goals");
+				DisplayExp();
+				Console.WriteLine("1. Show All Quest Goals");
+				Console.WriteLine("2. Add New Quest Goal");
+				Console.WriteLine("3. Record Quest Event");
 				Console.WriteLine("4. Start a New Quest");
 				Console.WriteLine("5. Resume an Existing Quest");
 				Console.WriteLine("6. Quit");
@@ -32,9 +80,9 @@ namespace EternalQuest
 
 				switch (choice)
 				{
-					case "1": AddGoal(); Persist(); break;
-					case "2": RecordEvent(); Persist(); break;
-					case "3": ShowGoals(); break;
+					case "1": ShowGoals(); break;
+					case "2": AddGoal(); Persist(); break;
+					case "3": RecordEvent(); Persist(); break;
 					case "4":
 						_questLog.StartNewQuest();
 						_goals.Clear();
@@ -55,9 +103,27 @@ namespace EternalQuest
 			}
 		}
 
-		static void DisplayScore()
+		// My creative method, displays current level for the user
+		static void DisplayExp()
 		{
-			Console.WriteLine($"=== Total Score: {_totalScore} pts ===\n");
+			bool levelUp = UpdateLevel();
+
+			if (levelUp)
+			{
+				Console.WriteLine($"=== LEVEL UP! === \n === You have been promoted to {_levelTitle}! ===\n");
+			}
+
+			Console.WriteLine($"=== Level {_levelNumber}: {_levelTitle} ===");
+
+			if (_levelNumber < _levelThresholds.Length)
+			{
+				int nextThreshold = _levelThresholds[_levelNumber];
+				Console.WriteLine($"=== Exp {_totalScore} / {nextThreshold} ===\n");
+			}
+			else
+			{
+				Console.WriteLine($"=== Exp {_totalScore} / MASTERED ===\n");
+			}
 		}
 
 		static void ShowGoals()
@@ -84,7 +150,7 @@ namespace EternalQuest
 			Console.Write("Description: ");
 			var description = Console.ReadLine();
 			Console.Write("Point value (aim for 400/day): ");
-			var points = int.Parse(Console.ReadLine());
+			int points = int.TryParse(Console.ReadLine(), out int tryPoints) ? tryPoints : 0;
 
 			switch (type)
 			{
@@ -118,16 +184,35 @@ namespace EternalQuest
 			{
 				int earned = _goals[index - 1].RecordEvent();
 				_totalScore += earned;
-				Persist();
 			}
 			else
 			{
 				Console.WriteLine("You cannot complete part of this quest, yet.");
 			}
 		}
+
+		// Helper method to save quest state
 		static void Persist()
 		{
 			_questLog.SaveQuestGoals(_goals, _totalScore);
+		}
+
+		// Helper method for updating user's level
+		private static bool UpdateLevel()
+		{
+			int previousLevel = _levelNumber;
+
+			for (int i = _levelThresholds.Length - 1; i >= 0; i--)
+			{
+				if (_totalScore >= _levelThresholds[i])
+				{
+					_levelNumber = i + 1;
+					_levelTitle  = _levelTitles[i];
+					break;
+				}
+			}
+
+			return _levelNumber != previousLevel;
 		}
 	}
 }
