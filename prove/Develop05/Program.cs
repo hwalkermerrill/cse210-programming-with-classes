@@ -13,7 +13,7 @@ namespace EternalQuest
 		private static string _levelTitle = "Novice Adventurer - Fledgling";
 
 		// I used two arrays to store levels and thresholds
-		private static readonly int[] _levelThresholdsArray = {
+		private static readonly int[] _levelThresholds = {
 			0, // Level 1
 			2000, // Level 2
 			5000, // Level 3
