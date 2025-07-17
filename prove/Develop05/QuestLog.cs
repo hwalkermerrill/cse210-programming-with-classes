@@ -16,7 +16,7 @@ namespace EternalQuest
     private const string DefaultQuestFile = "MainQuest.csv";
     private const string MasterHeader = "fileName,dateTime,adventureDescription";
     private const string GoalHeader
-      = "goalType,goalName,goalDescription,pointValue,targetCount,timesCompleted,isComplete,completionBonus";
+      = "goalType,goalName,goalDescription,expValue,targetCount,timesCompleted,isComplete,completionBonus";
 
     // getters here
     public string GetActiveQuestPath() { return _activeQuestPath; }
@@ -170,7 +170,7 @@ namespace EternalQuest
         var type = parts[0].Trim();
         var name = parts[1].Trim();
         var description = parts[2].Trim().Trim('"');
-        var points = int.Parse(parts[3]);
+        var exp = int.Parse(parts[3]);
         var targetCount = int.Parse(parts[4]);
         var timesDone = int.Parse(parts[5]);
         var isComplete = bool.Parse(parts[6]);
@@ -178,9 +178,9 @@ namespace EternalQuest
 
         BaseGoal goal = type switch
         {
-          "Simple" => new SimpleGoal(name, description, points),
-          "Eternal" => new EternalGoal(name, description, points),
-          "Checklist" => new ChecklistGoal(name, description, points, targetCount, completeBonus),
+          "Simple" => new SimpleGoal(name, description, exp),
+          "Eternal" => new EternalGoal(name, description, exp),
+          "Checklist" => new ChecklistGoal(name, description, exp, targetCount, completeBonus),
           _ => null
         };
         if (goal == null) continue;
@@ -202,9 +202,9 @@ namespace EternalQuest
         goals.Add(goal);
         totalScore += goal switch
         {
-          SimpleGoal sg => sg.IsComplete ? sg.PointValue : 0,
-          EternalGoal eg => eg.PointValue * timesDone,
-          ChecklistGoal cg => cg.PointValue * cg.TimesDone
+          SimpleGoal sg => sg.IsComplete() ? sg.GetExpValue() : 0,
+          EternalGoal eg => eg.GetExpValue() * eg.GetTimesDone(),
+          ChecklistGoal cg => cg.GetExpValue * cg.GetTimesDone()
             + (cg.IsComplete ? cg.CompletionBonus : 0),
           _ => 0
         };
@@ -222,9 +222,9 @@ namespace EternalQuest
       {
         var line = goal switch
         {
-          SimpleGoal sg => $"Simple,{sg.GetName()},\"{sg.GetDescription()}\",{sg.GetPointValue()},1,{(sg.IsComplete() ? 1 : 0)},{sg.IsComplete()},{0}",
-          EternalGoal eg => $"Eternal,{eg.GetName()},\"{eg.GetDescription()}\",{eg.GetPointValue()},0,{eg.GetTimesDone()},false,0",
-          ChecklistGoal cg => $"Checklist,{cg.GetName()},\"{cg.GetDescription()}\",{cg.GetPointValue()},{cg.GetTargetCount()},{cg.GetTimesDone()},{cg.IsComplete()},{cg.GetCompletionBonus()}",
+          SimpleGoal sg => $"Simple,{sg.GetName()},\"{sg.GetDescription()}\",{sg.GetExpValue()},1,{(sg.IsComplete() ? 1 : 0)},{sg.IsComplete()},{0}",
+          EternalGoal eg => $"Eternal,{eg.GetName()},\"{eg.GetDescription()}\",{eg.GetExpValue()},0,{eg.GetTimesDone()},false,0",
+          ChecklistGoal cg => $"Checklist,{cg.GetName()},\"{cg.GetDescription()}\",{cg.GetExpValue()},{cg.GetTargetCount()},{cg.GetTimesDone()},{cg.IsComplete()},{cg.GetCompletionBonus()}",
           _ => throw new InvalidOperationException("Unknown quests cannot be followed...")
         };
         sw.WriteLine(line);
