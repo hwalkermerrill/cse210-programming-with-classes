@@ -204,7 +204,7 @@ namespace EternalQuest
         {
           SimpleGoal sg => sg.IsComplete() ? sg.GetExpValue() : 0,
           EternalGoal eg => eg.GetExpValue() * eg.GetTimesDone(),
-          ChecklistGoal cg => cg.GetExpValue * cg.GetTimesDone()
+          ChecklistGoal cg => cg.GetExpValue() * cg.GetTimesDone()
             + (cg.IsComplete() ? cg.GetCompletionBonus() : 0),
           _ => 0
         };
