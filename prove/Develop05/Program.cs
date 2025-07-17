@@ -103,10 +103,13 @@ namespace EternalQuest
 					default: Console.WriteLine("Your quest awaits! Try again!"); break;
 				}
 
-				if (!exit)
+				if (exit)
 				{
-					Console.WriteLine("\nFarewell, and Good Luck, Adventurer! \nPress Enter to continue...");
+					Console.WriteLine("\nFarewell, and Good Luck, Adventurer!");
 				}
+
+				Console.WriteLine("\nPress Enter to continue...");
+				Console.ReadLine();
 			}
 		}
 
@@ -198,13 +201,12 @@ namespace EternalQuest
 			}
 		}
 
-		// Helper method to save quest state
+		// Helper methods
 		static void Persist()
 		{
 			_questLog.SaveQuestGoals(_goals, _totalScore);
 		}
 
-		// Helper method for updating user's level
 		private static bool UpdateLevel()
 		{
 			int previousLevel = _levelNumber;
