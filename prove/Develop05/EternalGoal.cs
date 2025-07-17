@@ -8,24 +8,27 @@ namespace EternalQuest
     // attributes here, following _camelCase naming convention
     private int _timesDone;
 
-    // properties here
-    public int TimesDone => _timesDone;
-    public EternalGoal(string name, string description, int pointValue)
-        : base(name, description, pointValue) { }
-    public override bool IsComplete => false; // eternal goals can never be complete
+    // getters here
+    public int GetTimesDone() { return _timesDone; }
+    public override bool IsComplete() { return false; } // eternal goals can never be complete
+
+    // constructors here
+    public EternalGoal(string name, string description, int expValue)
+        : base(name, description, expValue) { }
 
     // methods here
     public override int RecordEvent()
     {
       _timesDone++;
-      Console.WriteLine($"Recorded \"{Name}\" ({_timesDone}×)! +{PointValue} pts");
-      return PointValue;
+      Console.WriteLine($"Recorded \"{GetName()}\" ({_timesDone}×)! +{GetExpValue()} exp");
+      return GetExpValue();
     }
 
     public override string DisplayGoal()
     {
-      return $"[∞] {Name} – {PointValue} pts each ({_timesDone}× done)";
+      return $"[∞] {GetName()} – {GetExpValue()} pts each ({_timesDone}× done)";
     }
+    
     internal void RestoreCount(int count)
     {
       _timesDone = count;
