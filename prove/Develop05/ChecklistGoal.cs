@@ -10,48 +10,51 @@ namespace EternalQuest
     private readonly int _targetCount;
     private readonly int _completionBonus;
 
-    // properties here
+    // getters here
+    public int GetTimesDone() { return _timesDone; }
+    public int GetTargetCount() { return _targetCount; }
+    public int GetCompletionBonus() { return _completionBonus; }
+    public override bool IsComplete() { return _timesDone >= _targetCount; }
+
+    // constructors here
     public ChecklistGoal(
         string name,
         string description,
-        int pointValue,
+        int expValue,
         int targetCount,
         int completionBonus
     )
-    : base(name, description, pointValue)
+    : base(name, description, expValue)
     {
       _targetCount = targetCount;
       _completionBonus = completionBonus;
     }
 
-    public int TimesDone => _timesDone;
-    public int TargetCount => _targetCount;
-    public int CompletionBonus => _completionBonus;
-    public override bool IsComplete => _timesDone >= _targetCount;
-
     // methods here
     public override int RecordEvent()
     {
-      if (IsComplete)
+      if (IsComplete())
       {
-        Console.WriteLine($"\"{Name}\" is already fully completed.");
+        Console.WriteLine($"\"{GetName()}\" is already fully completed.");
         return 0;
       }
 
       _timesDone++;
       if (_timesDone == _targetCount)
       {
-        Console.WriteLine($"*** Checklist complete! Bonus +{_completionBonus} pts! ***");
+        Console.WriteLine($"*** Checklist complete! Bonus +{GetCompletionBonus()} exp! ***");
       }
 
-      return PointValue + (IsComplete ? _completionBonus : 0);
+      return GetExpValue() + (IsComplete() ? GetCompletionBonus() : 0);
     }
 
     public override string DisplayGoal()
     {
-      var checkbox = IsComplete ? "[X]" : "[ ]";
-      return $"{checkbox} {Name} ({Description}) – {PointValue} pts each, {_timesDone}/{_targetCount} done, bonus {_completionBonus}";
+      var checkbox = IsComplete() ? "[X]" : "[ ]";
+      return  $"{checkbox} {GetName()} ({GetDescription()}) – {GetExpValue()} exp each, " +
+              $"{ GetTimesDone()}/{GetTargetCount()} done, bonus {GetCompletionBonus()}";
     }
+
     internal void RestoreProgress(int timesDone)
     {
       _timesDone = timesDone;
