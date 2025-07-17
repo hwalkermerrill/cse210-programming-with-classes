@@ -10,6 +10,10 @@ namespace EternalQuest
 	// and I added a level system that tracks the user's progress along their quest.
 	// To ensure the user progresses at roughly the right speed based on effort, I also
 	// instructed them that they should aim for 400 points per day when they create a goal.
+	// Note - It looks like my default quest, which is stored in the bin, is not being
+	// uploaded to github and is instead staying locally. I don't really care enough to 
+	// fix it when I've already spent a lot of time on this showing creativity, but at least
+	// locally, it is working that way. I assume the bin folder is being instanced.
 	class Program
 	{
 		// attributes here, following _camelCase naming convention
