@@ -10,7 +10,6 @@ class Program {
   + Main(args:string[])
   + DisplayAllVideos()
 }
-Program ..> Video : manages
 
 '--------------------------------------------------
 ' Video class: title/author/length + list of Comment
@@ -29,7 +28,6 @@ class Video {
   + GetAuthor()               : string
   + GetLengthSeconds()  : int
 }
-Video *-- Comment : contains
 
 '--------------------------------------------------
 ' Comment entity: who wrote it + text
@@ -42,5 +40,11 @@ class Comment {
   + GetCommenterName() : string
   + GetCommentText()       : string
 }
+
+'--------------------------------------------------
+' Relationships
+'--------------------------------------------------
+Program ..> Video : manages
+Video *-- Comment : contains
 
 @enduml
