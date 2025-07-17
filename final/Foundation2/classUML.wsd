@@ -1,0 +1,78 @@
+@startuml
+title Online Shopping System UML
+
+'--------------------------------------------------
+' Main driver: creates orders and displays labels
+'--------------------------------------------------
+class Program {
+  - orders : List<Order>
+  --
+  + Main(args:string[])
+  + DisplayOrderDetails(order:Order)
+}
+
+'--------------------------------------------------
+' Order: holds products + customer; computes totals & labels
+'--------------------------------------------------
+class Order {
+  - _products : List<Product>
+  - _customer : Customer
+  --
+  + AddProduct(product:Product)
+  + GetPackingLabel()   : string
+  + GetShippingLabel()  : string
+  + GetTotalPrice()     : decimal
+}
+
+'--------------------------------------------------
+' Product: id, name, price, quantity → total cost
+'--------------------------------------------------
+class Product {
+  - _id        : string
+  - _name      : string
+  - _unitPrice : decimal
+  - _quantity  : int
+  --
+  + Product(id:string, name:string, unitPrice:decimal, quantity:int)
+  + GetId()        : string
+  + GetName()      : string
+  + GetUnitPrice() : decimal
+  + GetQuantity()  : int
+  + GetTotalCost() : decimal
+}
+
+'--------------------------------------------------
+' Customer: name + address; checks USA residency
+'--------------------------------------------------
+class Customer {
+  - _name    : string
+  - _address : Address
+  --
+  + Customer(name:string, address:Address)
+  + GetName()  : string
+  + GetAddress(): Address
+  + IsInUSA()  : bool
+}
+
+'--------------------------------------------------
+' Address: street, city, state, country; formats & checks country
+'--------------------------------------------------
+class Address {
+  - _street  : string
+  - _city    : string
+  - _state   : string
+  - _country : string
+  --
+  + Address(street:string, city:string, state:string, country:string)
+  + GetFullAddress(): string
+  + IsInUSA()       : bool
+}
+
+'--------------------------------------------------
+' Relationships
+'--------------------------------------------------
+Program       ..> Order     : uses
+Order         *-- Product   : contains
+Order         --> Customer  : identified by
+Customer      --> Address   : deliverable at
+@enduml
