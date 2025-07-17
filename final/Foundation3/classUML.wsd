@@ -1,0 +1,91 @@
+@startuml
+title Inheritance with Event Planning
+
+'--------------------------------------------------
+' Main driver: creates events and displays messages
+'--------------------------------------------------
+class Program {
+  - events : List<Event>
+  --
+  + Main(args:string[])
+  + DisplayEvent(event:Event)
+}
+
+'--------------------------------------------------
+' Abstract base for all event types
+'--------------------------------------------------
+abstract class Event {
+  - _title       : string
+  - _description : string
+  - _date        : DateTime
+  - _time        : string
+  - _address     : Address
+  --
+  + Event(title:string, description:string, date:DateTime,
+          time:string, address:Address)
+  + GetStandardDetails() : string
+  + GetFullDetails()     : string
+  + GetShortDescription(): string
+}
+
+'--------------------------------------------------
+' Lecture event: speaker + capacity
+'--------------------------------------------------
+class Lecture {
+  - _speaker : string
+  - _capacity: int
+  --
+  + Lecture(title:string, description:string, date:DateTime,
+            time:string, address:Address,
+            speaker:string, capacity:int)
+  + GetFullDetails() : string
+}
+
+'--------------------------------------------------
+' Reception event: RSVP email
+'--------------------------------------------------
+class Reception {
+  - _rsvpEmail : string
+  --
+  + Reception(title:string, description:string, date:DateTime,
+              time:string, address:Address,
+              rsvpEmail:string)
+  + GetFullDetails() : string
+}
+
+'--------------------------------------------------
+' Outdoor gathering: forecasts weather
+'--------------------------------------------------
+class OutdoorGathering {
+  - _weatherForecast : string
+  --
+  + OutdoorGathering(title:string, description:string, date:DateTime,
+                     time:string, address:Address,
+                     weatherForecast:string)
+  + GetFullDetails() : string
+}
+
+'--------------------------------------------------
+' Address: street, city, state/province, country
+'--------------------------------------------------
+class Address {
+  - _street  : string
+  - _city    : string
+  - _state   : string
+  - _country : string
+  --
+  + Address(street:string, city:string,
+            state:string, country:string)
+  + GetFullAddress(): string
+}
+
+'--------------------------------------------------
+' Relationships
+'--------------------------------------------------
+Program            ..> Event           : uses
+Event              *-- Address         : has
+Lecture            --|> Event          : extends
+Reception          --|> Event          : extends
+OutdoorGathering   --|> Event          : extends
+
+@enduml
