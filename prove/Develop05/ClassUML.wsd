@@ -1,0 +1,140 @@
+@startuml
+title Eternal Quest Program UML
+
+'--------------------------------------------------
+' Abstract base for all goal types
+'--------------------------------------------------
+abstract class BaseGoal {
+  - _name : string
+  - _description : string
+  - _expValue : int
+  --
+  + BaseGoal(name:string, description:string, expValue:int)
+  + GetName() : string
+  + GetDescription() : string
+  + GetExpValue() : int
+  + RecordEvent() : int
+  + DisplayGoal() : string
+  + IsComplete() : bool
+}
+
+'--------------------------------------------------
+' Simple, one‐time goal
+'--------------------------------------------------
+class SimpleGoal {
+  - _completed : bool
+  --
+  + SimpleGoal(name:string, description:string, expValue:int)
+  + RecordEvent() : int
+  + DisplayGoal() : string
+  + IsComplete() : bool
+  + Restore(completed:bool)
+}
+SimpleGoal --|> BaseGoal
+
+'--------------------------------------------------
+' Infinite (repeatable) goal
+'--------------------------------------------------
+class EternalGoal {
+  - _timesDone : int
+  --
+  + EternalGoal(name:string, description:string, expValue:int)
+  + RecordEvent() : int
+  + DisplayGoal() : string
+  + IsComplete() : bool
+  + GetTimesDone() : int
+  + RestoreCount(count:int)
+}
+EternalGoal --|> BaseGoal
+
+'--------------------------------------------------
+' Checklist goal (requires multiple completions + bonus)
+'--------------------------------------------------
+class ChecklistGoal {
+  - _timesDone : int
+  - _targetCount : int
+  - _completionBonus : int
+  --
+  + ChecklistGoal(name:string, description:string,
+                  expValue:int, targetCount:int, completionBonus:int)
+  + RecordEvent() : int
+  + DisplayGoal() : string
+  + IsComplete() : bool
+  + GetTimesDone() : int
+  + GetTargetCount() : int
+  + GetCompletionBonus() : int
+  + RestoreProgress(count:int)
+}
+ChecklistGoal --|> BaseGoal
+
+'--------------------------------------------------
+' Entity for the master quest record CSV
+'--------------------------------------------------
+entity MasterQuestRecord {
+  + fileName : string
+  + lastAccess : DateTime
+  + description : string
+}
+
+'--------------------------------------------------
+' Entity for individual quest CSV
+'--------------------------------------------------
+entity QuestFiles {
+  + goalType : string
+  + goalName : string
+  + goalDescription : string
+  + expValue : int
+  + targetCount : int
+  + timesCompleted : int
+  + isComplete : bool
+  + completionBonus : int
+}
+
+'--------------------------------------------------
+' QuestLog: manages CSV persistence & quest selection
+'--------------------------------------------------
+class QuestLog {
+  - _masterRecordPath : string
+  - _masterRecords : Dictionary<string,(DateTime,string)>
+  - _activeQuestPath : string
+  - DefaultQuestFile : string
+  - MasterHeader : string
+  - GoalHeader : string
+  --
+  + QuestLog()
+  + Initialize()
+  + ResumeQuest()
+  + StartNewQuest()
+  + LoadQuestGoals() : List<BaseGoal>
+  + SaveQuestGoals(goals:List<BaseGoal>, totalScore:int)
+  + GetActiveQuestPath() : string
+}
+QuestLog ..> MasterQuestRecord : manages
+QuestLog ..> QuestFiles        : manages
+QuestLog ..> BaseGoal          : reads/writes
+
+'--------------------------------------------------
+' Program: drives menu, level/exp system, and holds goals
+'--------------------------------------------------
+class Program {
+  - _questLog : QuestLog
+  - _goals : List<BaseGoal>
+  - _totalScore : int
+  - _levelNumber : int
+  - _levelTitle : string
+  - _levelThresholds : int[]
+  - _levelTitles : string[]
+  --
+  + Program()
+  + Main(args:string[])
+  + DisplayExp()
+  + ShowGoals()
+  + AddGoal()
+  + RecordEvent()
+  + Persist()
+  + UpdateLevel() : bool
+}
+Program ..> QuestLog  : uses
+Program ..> BaseGoal  : manages list of
+
+@enduml
