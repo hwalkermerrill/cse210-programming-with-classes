@@ -10,15 +10,15 @@ namespace EternalQuest
     protected string _description;
     protected int _pointValue;
 
-    // properties here
-    public string Name => _name;
-    public string Description => _description;
-    public int PointValue => _pointValue;
-    public abstract bool IsComplete { get; } // eternal is always false
+    // getters here
+    public string GetName() { return _name; }
+    public string GetDescription() { return _description; }
+    public int GetPointValue() { return _pointValue; }
 
     // methods here
     public abstract int RecordEvent();
     public abstract string DisplayGoal();
+    public abstract bool IsComplete();
     protected BaseGoal(string name, string description, int pointValue)
     {
       _name = name;
