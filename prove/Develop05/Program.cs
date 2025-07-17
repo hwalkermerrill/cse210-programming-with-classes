@@ -149,23 +149,23 @@ namespace EternalQuest
 			var name = Console.ReadLine();
 			Console.Write("Description: ");
 			var description = Console.ReadLine();
-			Console.Write("Point value (aim for 400/day): ");
-			int points = int.TryParse(Console.ReadLine(), out int tryPoints) ? tryPoints : 0;
+			Console.Write("Exp value (aim for 400/day): ");
+			int exp = int.TryParse(Console.ReadLine(), out int tryExp) ? tryExp : 0;
 
 			switch (type)
 			{
 				case "1":
-					_goals.Add(new SimpleGoal(name, description, points));
+					_goals.Add(new SimpleGoal(name, description, exp));
 					break;
 				case "2":
-					_goals.Add(new EternalGoal(name, description, points));
+					_goals.Add(new EternalGoal(name, description, exp));
 					break;
 				case "3":
 					Console.Write("Times Required to Complete: ");
 					int target = int.TryParse(Console.ReadLine(), out int tar) ? tar : 1;
 					Console.Write("Completion bonus: ");
 					int bonus = int.TryParse(Console.ReadLine(), out int bon) ? bon : 0;
-					_goals.Add(new ChecklistGoal(name, description, points, target, bonus));
+					_goals.Add(new ChecklistGoal(name, description, exp, target, bonus));
 					break;
 				default:
 					Console.WriteLine("You are not yet strong enough for this quest.");
