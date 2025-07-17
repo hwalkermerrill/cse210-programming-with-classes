@@ -11,23 +11,85 @@ namespace EternalQuest
   {
     // attributes here, following _camelCase naming convention
     private readonly string _masterRecordPath = "MasterQuestRecord.csv";
-    private Dictionary<string, (DateTime LastAccess, string Description)> _masterRecords = new();
+    private Dictionary<string, (DateTime lastAccess, string description)> _masterRecords = new();
     private string _activeQuestPath;
-
-    // properties here
-    public string ActiveQuestPath => _activeQuestPath;
     private const string DefaultQuestFile = "MainQuest.csv";
     private const string MasterHeader = "fileName,dateTime,adventureDescription";
     private const string GoalHeader
       = "goalType,goalName,goalDescription,pointValue,targetCount,timesCompleted,isComplete,completionBonus";
 
+    // getters here
+    public string GetActiveQuestPath() { return _activeQuestPath; }
+
     // methods here
-    // Build program on startup
+    // This method builds the quest log on startup
     public void Initialize()
     {
       EnsureMasterRecordExists();
       LoadMasterRecords();
       ChooseActiveQuest();
+    }
+
+    private void EnsureMasterRecordExists()
+    {
+      if (!File.Exists(_masterRecordPath))
+      {
+        File.WriteAllText(_masterRecordPath,
+          "fileName,dateTime,adventureDescription\n");
+        _masterRecords[DefaultQuestFile] =
+          (DateTime.UtcNow, "This main quest demonstrates how to use this program to set up your own goals and quests!");
+        SaveMasterRecords();
+
+        File.WriteAllText(DefaultQuestFile, GoalHeader + "\n");
+      }
+
+    }
+
+    private void LoadMasterRecords()
+    {
+      _masterRecords.Clear();
+      var lines = File.ReadAllLines(_masterRecordPath);
+
+      foreach (var line in lines.Skip(1)) // Skip header
+      {
+        var parts = line.Split(',', 3);
+        if (parts.Length < 3) continue;
+
+        var fileName = parts[0].Trim();
+        var dateText = parts[1].Trim();
+        var description = parts[2].Trim().Trim('"');
+
+        if (DateTime.TryParse(
+          dateText,
+          null,
+          DateTimeStyles.RoundtripKind,
+          out var dt))
+        {
+          _masterRecords[fileName] = (dt, description);
+        }
+      }
+    }
+
+    private void SaveMasterRecords()
+    {
+      using var sw = new StreamWriter(_masterRecordPath, false);
+      sw.WriteLine(MasterHeader);
+
+      foreach (var record in _masterRecords)
+      {
+        var fileName = record.Key;
+        var lastAccess = record.Value.lastAccess;
+        var description = record.Value.description.Replace("\"", "\"\""); // Escape quotes
+        sw.WriteLine($"{fileName},{lastAccess:o},\"{description}\"");
+      }
+    }
+
+    // Defaults to most recently accessed quest
+    private void ChooseActiveQuest()
+    {
+      _activeQuestPath = _masterRecords
+        .OrderByDescending(key => key.Value.lastAccess)
+        .First().Key;
     }
 
     // Change active quest file
@@ -40,7 +102,7 @@ namespace EternalQuest
         var key = quests[i];
         var data = _masterRecords[key];
         Console.WriteLine($"{i + 1}. {key}");
-        Console.WriteLine($"{data.Description}\n");
+        Console.WriteLine($"{data.description}\n");
       }
 
       Console.Write("Choose Your Quest! (Select the corresponding number): ");
@@ -48,7 +110,7 @@ namespace EternalQuest
         && index >= 1 && index <= _masterRecords.Count)
       {
         _activeQuestPath = quests[index - 1];
-        _masterRecords[_activeQuestPath] = (DateTime.UtcNow, _masterRecords[_activeQuestPath].Description);
+        _masterRecords[_activeQuestPath] = (DateTime.UtcNow, _masterRecords[_activeQuestPath].description);
         SaveMasterRecords();
         Console.WriteLine($"Embarking on the {_activeQuestPath} quest...");
       }
@@ -160,79 +222,17 @@ namespace EternalQuest
       {
         var line = goal switch
         {
-          SimpleGoal sg => $"Simple,{sg.Name},\"{sg.Description}\",{sg.PointValue},1,{(sg.IsComplete ? 1 : 0)},{sg.IsComplete},{0}",
-          EternalGoal eg => $"Eternal,{eg.Name},\"{eg.Description}\",{eg.PointValue},0,{eg.TimesDone},false,0",
-          ChecklistGoal cg => $"Checklist,{cg.Name},\"{cg.Description}\",{cg.PointValue},{cg.TargetCount},{cg.TimesDone},{cg.IsComplete},{cg.CompletionBonus}",
+          SimpleGoal sg => $"Simple,{sg.GetName()},\"{sg.GetDescription()}\",{sg.GetPointValue()},1,{(sg.IsComplete() ? 1 : 0)},{sg.IsComplete()},{0}",
+          EternalGoal eg => $"Eternal,{eg.GetName()},\"{eg.GetDescription()}\",{eg.GetPointValue()},0,{eg.GetTimesDone()},false,0",
+          ChecklistGoal cg => $"Checklist,{cg.GetName()},\"{cg.GetDescription()}\",{cg.GetPointValue()},{cg.GetTargetCount()},{cg.GetTimesDone()},{cg.IsComplete()},{cg.GetCompletionBonus()}",
           _ => throw new InvalidOperationException("Unknown quests cannot be followed...")
         };
         sw.WriteLine(line);
       }
 
       var rec = _masterRecords[_activeQuestPath];
-      _masterRecords[_activeQuestPath] = (DateTime.UtcNow, rec.Description);
+      _masterRecords[_activeQuestPath] = (DateTime.UtcNow, rec.description);
       SaveMasterRecords();
-    }
-
-    private void EnsureMasterRecordExists()
-    {
-      if (!File.Exists(_masterRecordPath))
-      {
-        File.WriteAllText(_masterRecordPath,
-          "fileName,dateTime,adventureDescription\n");
-        _masterRecords[DefaultQuestFile] =
-          (DateTime.UtcNow, "This main quest demonstrates how to use this program to set up your own goals and quests!");
-        SaveMasterRecords();
-
-        File.WriteAllText(DefaultQuestFile, GoalHeader + "\n");
-      }
-
-    }
-
-    private void LoadMasterRecords()
-    {
-      _masterRecords.Clear();
-      var lines = File.ReadAllLines(_masterRecordPath);
-
-      foreach (var line in lines.Skip(1)) // Skip header
-      {
-        var parts = line.Split(',', 3);
-        if (parts.Length < 3) continue;
-
-        var fileName = parts[0].Trim();
-        var dateText = parts[1].Trim();
-        var description = parts[2].Trim().Trim('"');
-
-        if (DateTime.TryParse(
-          dateText,
-          null,
-          DateTimeStyles.RoundtripKind,
-          out var dt))
-        {
-          _masterRecords[fileName] = (dt, description);
-        }
-      }
-    }
-
-    private void SaveMasterRecords()
-    {
-      using var sw = new StreamWriter(_masterRecordPath, false);
-      sw.WriteLine(MasterHeader);
-
-      foreach (var key in _masterRecords)
-      {
-        var fileName = key.Key;
-        var LastAccess = key.Value.LastAccess;
-        var description = key.Value.Description.Replace("\"", "\"\""); // Escape quotes
-        sw.WriteLine($"{fileName},{LastAccess:o},\"{description}\"");
-      }
-    }
-
-    // Defaults to most recently accessed quest
-    private void ChooseActiveQuest()
-    {
-      _activeQuestPath = _masterRecords
-        .OrderByDescending(key => key.Value.LastAccess)
-        .First().Key;
     }
   }
 }
