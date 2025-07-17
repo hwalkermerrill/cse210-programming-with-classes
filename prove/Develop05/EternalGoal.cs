@@ -26,9 +26,9 @@ namespace EternalQuest
 
     public override string DisplayGoal()
     {
-      return $"[∞] {GetName()} – {GetExpValue()} pts each ({_timesDone}× done)";
+      return $"[∞] {GetName()} – {GetExpValue()} exp each ({_timesDone}× done)";
     }
-    
+
     internal void RestoreCount(int count)
     {
       _timesDone = count;
