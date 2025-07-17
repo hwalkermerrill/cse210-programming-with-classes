@@ -24,7 +24,7 @@ namespace EternalQuest
       }
 
       _completed = true;
-      Console.WriteLine($"You completed \"{GetName()}\"! +{GetExpValue} exp");
+      Console.WriteLine($"You completed \"{GetName()}\"! +{GetExpValue()} exp");
       return GetExpValue();
 
     }
@@ -32,7 +32,7 @@ namespace EternalQuest
     public override string DisplayGoal()
     {
       var checkbox = _completed ? "[X]" : "[ ]";
-      return $"{checkbox} {GetName()} ({GetDescription()}) – {GetExpValue()} pts";
+      return $"{checkbox} {GetName()} ({GetDescription()}) – {GetExpValue()} exp";
     }
 
     internal void Restore(bool completed)
