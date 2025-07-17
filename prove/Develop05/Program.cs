@@ -3,6 +3,13 @@ using System.Collections.Generic;
 
 namespace EternalQuest
 {
+	// Exceeds requirements: I added a helper class to manage what I called the quest log.
+	// This quest log interfaces with a master csv file that tracks all quests, and allows
+	// the user to load an existing quest. I also added a default quest to show the user
+	// how the program works. Additionally, I added automatic saving and default loading,
+	// and I added a level system that tracks the user's progress along their quest.
+	// To ensure the user progresses at roughly the right speed based on effort, I also
+	// instructed them that they should aim for 400 points per day when they create a goal.
 	class Program
 	{
 		// attributes here, following _camelCase naming convention
@@ -207,7 +214,7 @@ namespace EternalQuest
 				if (_totalScore >= _levelThresholds[i])
 				{
 					_levelNumber = i + 1;
-					_levelTitle  = _levelTitles[i];
+					_levelTitle = _levelTitles[i];
 					break;
 				}
 			}

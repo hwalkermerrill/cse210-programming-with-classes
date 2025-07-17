@@ -52,7 +52,7 @@ namespace EternalQuest
     {
       var checkbox = IsComplete() ? "[X]" : "[ ]";
       return  $"{checkbox} {GetName()} ({GetDescription()}) – {GetExpValue()} exp each, " +
-              $"{ GetTimesDone()}/{GetTargetCount()} done, bonus {GetCompletionBonus()}";
+              $"{GetTimesDone()}/{GetTargetCount()} done, bonus {GetCompletionBonus()}";
     }
 
     internal void RestoreProgress(int timesDone)
