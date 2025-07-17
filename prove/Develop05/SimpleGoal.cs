@@ -8,33 +8,36 @@ namespace EternalQuest
     // attributes here, following _camelCase naming convention
     private bool _completed;
 
-    // properties here
-    public SimpleGoal(string name, string description, int pointValue)
-      : base(name, description, pointValue) { }
-
-    public override bool IsComplete => _completed;
+    // constructors here
+    public SimpleGoal(string name, string description, int expValue)
+      : base(name, description, expValue) { }
 
     // methods here
+    public override bool IsComplete() { return _completed; }
+
     public override int RecordEvent()
     {
       if (_completed)
       {
-        Console.WriteLine($"\"{Name}\" is already complete.");
+        Console.WriteLine($"\"{GetName()}\" is already complete.");
         return 0;
       }
 
       _completed = true;
-      Console.WriteLine($"You completed \"{Name}\"! +{PointValue} pts");
-      return PointValue;
+      Console.WriteLine($"You completed \"{GetName()}\"! +{GetExpValue} exp");
+      return GetExpValue();
 
     }
 
     public override string DisplayGoal()
     {
       var checkbox = _completed ? "[X]" : "[ ]";
-      return $"{checkbox} {Name} ({Description}) – {PointValue} pts";
+      return $"{checkbox} {GetName()} ({GetDescription()}) – {GetExpValue()} pts";
     }
+
     internal void Restore(bool completed)
-    => _completed = completed;
+    {
+      _completed = completed;
+    }
   }
 }
