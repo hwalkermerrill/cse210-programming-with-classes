@@ -1,0 +1,71 @@
+@startuml
+title Polymorphism with Exercise Tracking
+
+'--------------------------------------------------
+' Main driver: creates activities and displays summaries
+'--------------------------------------------------
+class Program {
+  - activities : List<Activity>
+  --
+  + Main(args:string[])
+  + DisplaySummaries()
+}
+
+'--------------------------------------------------
+' Abstract base for all activities
+'--------------------------------------------------
+abstract class Activity {
+  - _date          : DateTime
+  - _lengthMinutes : int
+  --
+  + Activity(date:DateTime, lengthMinutes:int)
+  + GetDistance() : double
+  + GetSpeed()    : double
+  + GetPace()     : double
+  + GetSummary()  : string
+}
+
+'--------------------------------------------------
+' Running: tracks a distance in miles
+'--------------------------------------------------
+class Running {
+  - _distanceMiles : double
+  --
+  + Running(date:DateTime, lengthMinutes:int, distanceMiles:double)
+  + GetDistance() : double
+  + GetSpeed()    : double
+  + GetPace()     : double
+}
+
+'--------------------------------------------------
+' Stationary Bicycle: tracks a speed in mph
+'--------------------------------------------------
+class StationaryBicycle {
+  - _speedMph : double
+  --
+  + StationaryBicycle(date:DateTime, lengthMinutes:int, speedMph:double)
+  + GetDistance() : double
+  + GetSpeed()    : double
+  + GetPace()     : double
+}
+
+'--------------------------------------------------
+' Swimming: tracks laps (50 m each), calculates distance
+'--------------------------------------------------
+class Swimming {
+  - _laps : int
+  --
+  + Swimming(date:DateTime, lengthMinutes:int, laps:int)
+  + GetDistance() : double
+  + GetSpeed()    : double
+  + GetPace()     : double
+}
+
+'--------------------------------------------------
+' Relationships
+'--------------------------------------------------
+Program           ..> Activity             : uses
+Running           --|> Activity            : extends
+StationaryBicycle --|> Activity            : extends
+Swimming          --|> Activity            : extends
+@enduml
