@@ -19,7 +19,7 @@ namespace InheritingTabletopEvents
 			_country = country;
 		}
 
-		// getters here
+		// methods here
 		public string GetFullAddress()
 		{
 			return
