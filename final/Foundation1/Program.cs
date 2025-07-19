@@ -15,6 +15,7 @@ namespace RickRollAbstraction
 	{
 		public static void Main(string[] args)
 		{
+			// methods here
 			List<Video> videos = InitializeVideos();
 			bool exit = false;
 

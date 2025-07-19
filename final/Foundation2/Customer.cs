@@ -2,6 +2,7 @@ namespace GameMastersWebStore
 {
   public class Customer
   {
+		// attributes here, following _camelCase naming convention
     private string _name;
     private Address _address;
 
@@ -11,17 +12,18 @@ namespace GameMastersWebStore
       _address = address;
     }
 
-    public string GetName()
-    {
-      return _name;
-    }
+		// getters here
+		public string GetName()
+		{
+			return _name;
+		}
 
     public Address GetAddress()
     {
       return _address;
     }
 
-    public bool IsInUSA()
+    public bool InUSA()
     {
       return _address.IsInUSA();
     }

@@ -7,15 +7,16 @@ namespace GameMastersWebStore
   {
     public static void Main(string[] args)
     {
+			// methods here
       var customers = InitializeCustomers();
 
-      Console.WriteLine("🎲 Welcome to the Game Masters Web Store Customer Roster\n");
-      foreach (var cust in customers)
+      Console.WriteLine("Welcome to the Game Masters Web Store!\n");
+      foreach (var character in customers)
       {
-        Console.WriteLine($"Name    : {cust.GetName()}");
-        Console.WriteLine($"Address : {cust.GetAddress().GetFullAddress()}");
-        Console.WriteLine($"In USA? : " + (cust.IsInUSA() ? "Yes" : "No"));
-        Console.WriteLine(new string('-', 40));
+        Console.WriteLine($"Name    : {character.GetName()}");
+        Console.WriteLine($"Address : {character.GetAddress().GetFullAddress()}");
+        Console.WriteLine($"In USA? : " + (character.InUSA() ? "Yes" : "No"));
+        Console.WriteLine(new string('=', 32));
       }
     }
 
