@@ -4,9 +4,9 @@ namespace ZamirasFitnessTracker
 {
   public abstract class Activity
   {
-    // attributes here
-    private DateTime _date;
-    private int _lengthMinutes;
+    // attributes here, following _camelCase naming convention
+    protected DateTime _date;
+    protected int _lengthMinutes;
 
     // constructor here
     public Activity(DateTime date, int lengthMinutes)
