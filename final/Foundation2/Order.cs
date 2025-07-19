@@ -30,27 +30,27 @@ namespace GameMastersWebStore
 					product = item;
 					break;
 				}
-				if (product == null)
-				{
-					throw new ArgumentException($"You cannot purchase this item at your level.");
-				}
+			}
+			if (product == null)
+			{
+				throw new ArgumentException($"You cannot purchase {productID} at your level.");
+			}
 
-				var lineItem = new Product(
-        product.GetID(),
-        product.GetName(),
-        product.GetUnitPrice(),
-        quantity
+			var lineItem = new Product(
+				product.GetID(),
+				product.GetName(),
+				product.GetUnitPrice(),
+				quantity
       );
       _products.Add(lineItem);
-			}
 		}
 
     public decimal GetTotalPrice()
     {
       decimal sum = 0m;
-      foreach (var prod in _products)
+      foreach (var lineCost in _products)
       {
-        sum += prod.GetTotalCost();
+        sum += lineCost.GetTotalCost();
       }
 
       decimal shipping = _customer.InUSA() ? 5m : 35m;
@@ -61,9 +61,9 @@ namespace GameMastersWebStore
     {
       var sb = new StringBuilder();
       sb.AppendLine("Packing Label:");
-      foreach (var prod in _products)
+      foreach (var product in _products)
       {
-        sb.AppendLine($"{prod.GetID()} - {prod.GetName()}");
+        sb.AppendLine($"{product.GetID()} - {product.GetName()} x{product.GetQuantity()}");
       }
       return sb.ToString();
     }
