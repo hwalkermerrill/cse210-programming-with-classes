@@ -1,5 +1,5 @@
 @startuml
-title Online Shopping System UML
+title Online Shopping System
 
 '--------------------------------------------------
 ' Main driver: creates orders and displays labels
