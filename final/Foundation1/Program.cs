@@ -42,6 +42,12 @@ namespace RickRollAbstraction
 					case "5":
 					case "6":
 						int index = int.Parse(choice) - 1;
+						if (index < 0)
+						{
+							Console.WriteLine("The number you have dialed is not available. Please hang up and try again.");
+							Pause();
+							break;
+						}
 						DisplayVideoDetails(videos[index]);
 						PlayVideo(choice, videos[index]);
 						break;
