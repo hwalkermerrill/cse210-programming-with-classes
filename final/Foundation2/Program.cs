@@ -60,34 +60,34 @@ namespace GameMastersWebStore
 			return new List<Product>
 			{
         // Weapons
-        new Product("WPN01", "Simple Weapon", 10, 1),
-				new Product("WPN02", "Martial Weapon", 50, 1),
-				new Product("WPN03", "Exotic Weapon", 250, 1),
-				new Product("AMM01", "Ammo (20)", 10, 1),
+        new Product("WPN01", "Simple Weapon", 10m, 1),
+				new Product("WPN02", "Martial Weapon", 50m, 1),
+				new Product("WPN03", "Exotic Weapon", 250m, 1),
+				new Product("AMM01", "Ammo (20)", 10m, 1),
 
         // Armor
-        new Product("SHD01", "Light Shield", 25, 1),
-				new Product("SHD02", "Heavy Shield", 100, 1),
-				new Product("ARM01", "Light Armor", 100, 1),
-				new Product("ARM02", "Medium Armor", 500, 1),
-				new Product("ARM03", "Heavy Armor", 2000, 1),
+        new Product("SHD01", "Light Shield", 25m, 1),
+				new Product("SHD02", "Heavy Shield", 100m, 1),
+				new Product("ARM01", "Light Armor", 100m, 1),
+				new Product("ARM02", "Medium Armor", 500m, 1),
+				new Product("ARM03", "Heavy Armor", 2000m, 1),
 
         // Enchantments
-        new Product("ENR01", "Armor +1 Enchantment", 1000, 1),
-				new Product("ENR02", "Armor +2 Enchantment", 4000, 1),
-				new Product("ENR03", "Armor +3 Enchantment", 16000, 1),
-        new Product("ENW01", "Weapon +1 Enchantment", 2000, 1),
-				new Product("ENW02", "Weapon +2 Enchantment", 8000, 1),
-				new Product("ENW03", "Weapon +3 Enchantment", 32000, 1),
+        new Product("ENR01", "Armor +1 Enchantment", 1000m, 1),
+				new Product("ENR02", "Armor +2 Enchantment", 4000m, 1),
+				new Product("ENR03", "Armor +3 Enchantment", 16000m, 1),
+        new Product("ENW01", "Weapon +1 Enchantment", 2000m, 1),
+				new Product("ENW02", "Weapon +2 Enchantment", 8000m, 1),
+				new Product("ENW03", "Weapon +3 Enchantment", 32000m, 1),
 
         // Wands
-        new Product("WND01", "Wand of Cure Light Wounds", 450, 1),
-				new Product("WND02", "Wand of Cure Moderate Wounds", 2700, 1),
-				new Product("WND03", "Wand of Cure Serious Wounds", 6750, 1),
+        new Product("WND01", "Wand of Cure Light Wounds", 450m, 1),
+				new Product("WND02", "Wand of Cure Moderate Wounds", 2700m, 1),
+				new Product("WND03", "Wand of Cure Serious Wounds", 6750m, 1),
 
         // Random magic items
-        new Product("RDM01","Random Discount Magic Item (maybe cursed)", 50, 1),
-				new Product("RDM02","Random Discount Magic Item (totally not cursed)",5000, 1),
+        new Product("RDM01","Random Discount Magic Item (maybe cursed)", 50m, 1),
+				new Product("RDM02","Random Discount Magic Item (totally not cursed)",5000m, 1),
 			};
 		}
   }
