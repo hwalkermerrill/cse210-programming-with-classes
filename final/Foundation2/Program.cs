@@ -3,6 +3,10 @@ using System.Collections.Generic;
 
 namespace GameMastersWebStore
 {
+	// Exceeds expectations, though only slightly. I hardcoded a list of customers and products for proof purposes,
+	// but I did not use external csv files this time. Instead, I simply created the lists in the Program.cs file.
+	// But I did create far more products and customers than required for the assignment, I kept them to a similar
+	// theme, and I set up the ordering to allow the program to either put in the order quantity or default to 1.
 	public class Program
 	{
 		public static void Main(string[] args)
@@ -103,7 +107,7 @@ namespace GameMastersWebStore
 					new Address("19 Wildwood Trail", "Greenfield", "Indiana", "USA")),
 			};
 		}
-		
+
 		static List<Product> InitializeProducts()
 		{
 			return new List<Product>
@@ -139,5 +143,5 @@ namespace GameMastersWebStore
 				new Product("RDM02","Random Discount Magic Item (totally not cursed)",5000m, 1),
 			};
 		}
-  }
+	}
 }
