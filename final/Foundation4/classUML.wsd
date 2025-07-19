@@ -40,10 +40,10 @@ class Running {
 '--------------------------------------------------
 ' Stationary Bicycle: tracks a speed in mph
 '--------------------------------------------------
-class StationaryBicycle {
+class Cycling {
   - _speedMph : double
   --
-  + StationaryBicycle(date:DateTime, lengthMinutes:int, speedMph:double)
+  + Cycling(date:DateTime, lengthMinutes:int, speedMph:double)
   + GetDistance() : double
   + GetSpeed()    : double
   + GetPace()     : double
