@@ -9,10 +9,7 @@ namespace ZamirasFitnessTracker
 
     // constructor here
     public Running(DateTime date, int lengthMinutes, double distanceMiles)
-      : base(date, lengthMinutes)
-    {
-      _distanceMiles = distanceMiles;
-    }
+      : base(date, lengthMinutes) { _distanceMiles = distanceMiles; }
 
     // methods here
     public override double GetDistance() { return _distanceMiles; }
