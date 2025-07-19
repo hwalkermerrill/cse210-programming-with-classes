@@ -47,15 +47,15 @@ namespace GameMastersWebStore
 			wizboltOrder.AddProduct("RDM01", 25);
 
 			// 4) Normal the NPC orders:
-			var normalOrder = new Order(customers[3], products);
+			var normalOrder = new Order(customers[9], products);
 			normalOrder.AddProduct("WPN01");
 			normalOrder.AddProduct("ARM01");
 			normalOrder.AddProduct("SHD01");
 
-			PrintOrder("Ballin’s Order",    ballinOrder);
-			PrintOrder("Rogar’s Order",     rogarOrder);
-			PrintOrder("Wizbolt’s Order",   wizboltOrder);
-			PrintOrder("Normal’s Order",    normalOrder);
+			PrintOrder("Ballin’s Order", ballinOrder);
+			PrintOrder("Rogar’s Order", rogarOrder);
+			PrintOrder("Wizbolt’s Order", wizboltOrder);
+			PrintOrder("Normal’s Order", normalOrder);
 		}
 
 		// methods here
