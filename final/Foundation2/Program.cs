@@ -7,7 +7,7 @@ namespace GameMastersWebStore
 	{
 		public static void Main(string[] args)
 		{
-			// methods here
+			// main program here
 			var customers = InitializeCustomers();
 			var products = InitializeProducts();
 
@@ -24,36 +24,50 @@ namespace GameMastersWebStore
 			foreach (var item in products)
 			{
 				Console.WriteLine(
-					$"ID: {item.GetId()}  |  " +
+					$"ID: {item.GetID()}  |  " +
 					$"Name: {item.GetName()}  |  " +
 					$"Unit Price: {item.GetUnitPrice():C}"
 				);
 			}
-			
-			// Order 1: Domestic customer (Wizbolt)
-			var order1 = new Order(customers[2]);
-      order1.AddProduct(products[0]);   // Simple Weapon
-      order1.AddProduct(products[3]);   // Ammo (20)
-      order1.AddProduct(products[16]);  // Random Discount (blessed)
 
-      // Order 2: International customer (Rogar)
-      var order2 = new Order(customers[1]);
-      order2.AddProduct(products[1]);   // Martial Weapon
-      order2.AddProduct(products[4]);   // Light Shield
-      order2.AddProduct(products[10]);  // Armor +1 Enchantment
+			// 1) Ballin the Dwarf Cleric orders:
+			var ballinOrder = new Order(customers[0], products);
+			ballinOrder.AddProduct("WPN03");
+			ballinOrder.AddProduct("SHD02");
+			ballinOrder.AddProduct("WND01");
 
-      // --- Display Order Summaries ---
-      Console.WriteLine("\n== Order 1 ==");
-      Console.WriteLine(order1.GetPackingLabel());
-      Console.WriteLine(order1.GetShippingLabel());
-      Console.WriteLine($"Total Price: {order1.GetTotalPrice():C}");
+			// 2) Rogar the Orc Guard orders:
+			var rogarOrder = new Order(customers[1], products);
+			rogarOrder.AddProduct("WPN02", 8);
+			rogarOrder.AddProduct("ARM01");
+			rogarOrder.AddProduct("ENR01");
 
-      Console.WriteLine("\n== Order 2 ==");
-      Console.WriteLine(order2.GetPackingLabel());
-      Console.WriteLine(order2.GetShippingLabel());
-      Console.WriteLine($"Total Price: {order2.GetTotalPrice():C}");
+			// 3) Wizbolt the Human Wizard orders:
+			var wizboltOrder = new Order(customers[2], products);
+			wizboltOrder.AddProduct("RDM01", 25);
+
+			// 4) Normal the NPC orders:
+			var normalOrder = new Order(customers[3], products);
+			normalOrder.AddProduct("WPN01");
+			normalOrder.AddProduct("ARM01");
+			normalOrder.AddProduct("SHD01");
+
+			PrintOrder("Ballin’s Order",    ballinOrder);
+			PrintOrder("Rogar’s Order",     rogarOrder);
+			PrintOrder("Wizbolt’s Order",   wizboltOrder);
+			PrintOrder("Normal’s Order",    normalOrder);
 		}
 
+		// methods here
+		static void PrintOrder(string title, Order order)
+		{
+			Console.WriteLine($"\n== {title} ==");
+			Console.WriteLine(order.GetPackingLabel());
+			Console.WriteLine(order.GetShippingLabel());
+			Console.WriteLine($"Total Price: {order.GetTotalPrice():C}");
+		}
+
+		// Hardcoded customer and product lists for testing/ class prove reasons
 		static List<Customer> InitializeCustomers()
 		{
 			return new List<Customer>
@@ -89,6 +103,7 @@ namespace GameMastersWebStore
 					new Address("19 Wildwood Trail", "Greenfield", "Indiana", "USA")),
 			};
 		}
+		
 		static List<Product> InitializeProducts()
 		{
 			return new List<Product>
@@ -110,7 +125,7 @@ namespace GameMastersWebStore
         new Product("ENR01", "Armor +1 Enchantment", 1000m, 1),
 				new Product("ENR02", "Armor +2 Enchantment", 4000m, 1),
 				new Product("ENR03", "Armor +3 Enchantment", 16000m, 1),
-        new Product("ENW01", "Weapon +1 Enchantment", 2000m, 1),
+				new Product("ENW01", "Weapon +1 Enchantment", 2000m, 1),
 				new Product("ENW02", "Weapon +2 Enchantment", 8000m, 1),
 				new Product("ENW03", "Weapon +3 Enchantment", 32000m, 1),
 

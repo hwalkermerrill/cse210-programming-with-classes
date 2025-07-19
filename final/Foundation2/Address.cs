@@ -10,13 +10,14 @@ namespace GameMastersWebStore
     private string _state;
     private string _country;
 
-    public Address(string street, string city, string stateProvince, string country)
-    {
-      _street = street;
-      _city = city;
-      _state = stateProvince;
-      _country = country;
-    }
+		// constructor here
+		public Address(string street, string city, string stateProvince, string country)
+		{
+			_street = street;
+			_city = city;
+			_state = stateProvince;
+			_country = country;
+		}
 
 		// getters here
 		public string GetFullAddress() { return $"{_street}\n{_city}, {_state}\n{_country}"; }

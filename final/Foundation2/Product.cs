@@ -10,6 +10,7 @@ namespace GameMastersWebStore
     private decimal _unitPrice;
     private int     _quantity;
 
+		// constructor here
     public Product(string id, string name, decimal unitPrice, int quantity)
     {
       _id         = id;
@@ -19,7 +20,7 @@ namespace GameMastersWebStore
     }
 
 		// getters here
-		public string GetId() { return _id; }
+		public string GetID() { return _id; }
     public string GetName() { return _name; }
     public decimal GetUnitPrice() { return _unitPrice; }
     public int GetQuantity() { return _quantity; }

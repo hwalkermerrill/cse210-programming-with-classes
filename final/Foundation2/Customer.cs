@@ -6,6 +6,7 @@ namespace GameMastersWebStore
     private string _name;
     private Address _address;
 		
+		// constructor here
     public Customer(string name, Address address)
 		{
 			_name = name;
