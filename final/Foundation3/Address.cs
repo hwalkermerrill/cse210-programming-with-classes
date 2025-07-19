@@ -1,12 +1,14 @@
+using System;
+
 namespace InheritingTabletopEvents
 {
-  public class Address
-  {
+	public class Address
+	{
 		// attributes here, following _camelCase naming convention
-    private string _street;
-    private string _city;
-    private string _stateProvince;
-    private string _country;
+		private string _street;
+		private string _city;
+		private string _stateProvince;
+		private string _country;
 
 		// constructor here
 		public Address(string street, string city, string stateProvince, string country)
@@ -25,5 +27,5 @@ namespace InheritingTabletopEvents
 				$"{_city}, {_stateProvince}\n" +
 				$"{_country}";
 		}
-  }
+	}
 }
