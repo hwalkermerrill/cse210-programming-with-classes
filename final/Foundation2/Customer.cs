@@ -15,6 +15,6 @@ namespace GameMastersWebStore
 		// getters here
 		public Address GetAddress() { return _address; }
 		public string GetName() { return _name; }
-    public bool InUSA() { return _address.IsInUSA(); }
+    public bool InUSA() { return _address.InUSA(); }
   }
 }

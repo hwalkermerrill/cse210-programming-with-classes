@@ -20,6 +20,6 @@ namespace GameMastersWebStore
 
 		// getters here
 		public string GetFullAddress() { return $"{_street}\n{_city}, {_state}\n{_country}"; }
-    public bool IsInUSA() { return _country.Equals("USA", StringComparison.OrdinalIgnoreCase); }
+    public bool InUSA() { return _country.Equals("USA", StringComparison.OrdinalIgnoreCase); }
   }
 }
