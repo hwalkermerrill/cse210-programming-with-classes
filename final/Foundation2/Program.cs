@@ -9,15 +9,49 @@ namespace GameMastersWebStore
 		{
 			// methods here
 			var customers = InitializeCustomers();
+			var products = InitializeProducts();
 
-			Console.WriteLine("Welcome to the Game Masters Web Store!\n");
+			Console.WriteLine("== Customer Roster ==");
 			foreach (var character in customers)
 			{
 				Console.WriteLine($"Name    : {character.GetName()}");
-				Console.WriteLine($"Address : {character.GetAddress().GetFullAddress()}");
-				Console.WriteLine($"In USA? : " + (character.InUSA() ? "Yes" : "No"));
-				Console.WriteLine(new string('=', 32));
+				Console.WriteLine("Address :\n" + character.GetAddress().GetFullAddress());
+				Console.WriteLine($"In USA? : {(character.InUSA() ? "Yes" : "No")}");
+				Console.WriteLine(new string('-', 32));
 			}
+
+			Console.WriteLine("\n== Product Catalog ==");
+			foreach (var item in products)
+			{
+				Console.WriteLine(
+					$"ID: {item.GetId()}  |  " +
+					$"Name: {item.GetName()}  |  " +
+					$"Unit Price: {item.GetUnitPrice():C}"
+				);
+			}
+			
+			// Order 1: Domestic customer (Wizbolt)
+			var order1 = new Order(customers[2]);
+      order1.AddProduct(products[0]);   // Simple Weapon
+      order1.AddProduct(products[3]);   // Ammo (20)
+      order1.AddProduct(products[16]);  // Random Discount (blessed)
+
+      // Order 2: International customer (Rogar)
+      var order2 = new Order(customers[1]);
+      order2.AddProduct(products[1]);   // Martial Weapon
+      order2.AddProduct(products[4]);   // Light Shield
+      order2.AddProduct(products[10]);  // Armor +1 Enchantment
+
+      // --- Display Order Summaries ---
+      Console.WriteLine("\n== Order 1 ==");
+      Console.WriteLine(order1.GetPackingLabel());
+      Console.WriteLine(order1.GetShippingLabel());
+      Console.WriteLine($"Total Price: {order1.GetTotalPrice():C}");
+
+      Console.WriteLine("\n== Order 2 ==");
+      Console.WriteLine(order2.GetPackingLabel());
+      Console.WriteLine(order2.GetShippingLabel());
+      Console.WriteLine($"Total Price: {order2.GetTotalPrice():C}");
 		}
 
 		static List<Customer> InitializeCustomers()
