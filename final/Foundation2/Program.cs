@@ -61,7 +61,7 @@ namespace GameMastersWebStore
 		// methods here
 		static void PrintOrder(string title, Order order)
 		{
-			Console.WriteLine($"\n== {title} ==");
+			Console.WriteLine($"\n<<< {title} >>>");
 			Console.WriteLine(order.GetPackingLabel());
 			Console.WriteLine(order.GetShippingLabel());
 			Console.WriteLine($"Total Price: {order.GetTotalPrice():C}");
