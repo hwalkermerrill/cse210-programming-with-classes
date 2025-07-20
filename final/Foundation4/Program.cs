@@ -11,7 +11,7 @@ namespace ZamirasFitnessTracker
 		{
 			var activities = InitializeActivities();
 
-			Console.WriteLine("=== BARBARIAN STRONG! WORKOUT SUMMARY! ===\n");
+			Console.WriteLine("!!!BARBARIAN STRONG!!!   !!!WORKOUT SUMMARY!!!\n");
 			DisplaySummaries(activities);
 		}
 
@@ -20,7 +20,7 @@ namespace ZamirasFitnessTracker
 			foreach (var activity in activities)
 			{
 				Console.WriteLine(activity.GetSummary());
-				Console.WriteLine(new string('-', 40));
+				Console.WriteLine(new string('=', 32));
 			}
 		}
 
@@ -28,7 +28,7 @@ namespace ZamirasFitnessTracker
 		{
 			return new List<Activity>
 			{
-        // one of each activity type
+        // one of each activity for output proof purposes
         new Running(
 					new DateTime(2025, 7, 24),
 					60,
