@@ -20,30 +20,11 @@ namespace RickRollAbstraction
 		}
 
 		// getters here
-		public string GetTitle()
-		{
-			return _title;
-		}
-
-		public string GetAuthor()
-		{
-			return _author;
-		}
-
-		public int GetLength()
-		{
-			return _lengthSeconds;
-		}
-
-		public List<Comment> GetComments()
-		{
-			return _comments;
-		}
-
-		public int CountComments()
-		{
-			return _comments.Count;
-		}
+		public string GetTitle() { return _title; }
+		public string GetAuthor() { return _author; }
+		public int GetLength() { return _lengthSeconds; }
+		public List<Comment> GetComments() { return _comments; }
+		public int CountComments() { return _comments.Count; }
 
 		// methods here
 		public void AddComment(Comment comment)

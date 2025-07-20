@@ -16,14 +16,7 @@ namespace RickRollAbstraction
 		}
 
 		// getters here
-		public string GetCommenterName()
-		{
-			return _commenterName;
-		}
-
-		public string GetCommentText()
-		{
-			return _commentText;
-		}
+		public string GetCommenterName() { return _commenterName; }
+		public string GetCommentText() { return _commentText; }
 	}
 }
