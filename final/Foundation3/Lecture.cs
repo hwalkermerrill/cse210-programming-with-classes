@@ -29,7 +29,7 @@ namespace InheritingTabletopEvents
       return
         $"{GetStandardDetails()}\n" +
         $"Speaker: {_speaker}\n" +
-        $"Capacity: {_capacity}";
+        $"Capacity: {_capacity} people";
     }
   }
 }

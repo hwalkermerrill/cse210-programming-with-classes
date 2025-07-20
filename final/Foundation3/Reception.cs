@@ -25,7 +25,7 @@ namespace InheritingTabletopEvents
     {
       return
         $"{GetStandardDetails()}\n" +
-        $"RSVP Email: {_rsvpEmail}";
+        $"RSVP by emailing us at {_rsvpEmail}";
     }
   }
 }

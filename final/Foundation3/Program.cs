@@ -23,16 +23,17 @@ namespace InheritingTabletopEvents
 
 		static void DisplayEvent(Event evt)
 		{
+			Console.WriteLine("----- Short Description -----");
+			Console.WriteLine(evt.GetShortDescription());
+			Console.WriteLine();
+
 			Console.WriteLine("----- Standard Details -----");
 			Console.WriteLine(evt.GetStandardDetails());
 			Console.WriteLine();
 
 			Console.WriteLine("----- Full Details -----");
 			Console.WriteLine(evt.GetFullDetails());
-			Console.WriteLine();
 
-			Console.WriteLine("----- Short Description -----");
-			Console.WriteLine(evt.GetShortDescription());
 		}
 
 		static List<Event> InitializeEvents()
