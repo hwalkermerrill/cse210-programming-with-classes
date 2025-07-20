@@ -22,7 +22,7 @@ namespace RickRollAbstraction
 			while (!exit)
 			{
 				Console.Clear();
-				Console.WriteLine("🎬 Welcome to Harrison's CSE210 YouTube Music Library!");
+				Console.WriteLine("Welcome to Harrison's CSE210 YouTube Music Library!");
 				Console.WriteLine("Choose a video to explore and listen to:");
 				Console.WriteLine("  1. Diggy Diggy Hole");
 				Console.WriteLine("  2. Keyboard Cat! - The Original");
